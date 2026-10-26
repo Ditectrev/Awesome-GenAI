@@ -1,3 +1,326 @@
-# Awesome-GenAI
+# 📚 Awesome GenAI Book & Course: Generative Artificial Intelligence (GenAI)
 
-Make sure to include https://github.com/mattpocock/skills
+![Promotional image](images/promotional.png)
+
+## ❣️ Support
+
+There are many ways to support us; in exchange, you'll get this material in a proper format:
+
+- ❤️ [shop.ditectrev.com, in EPUB or PDF formats](https://shop.ditectrev.com/product/TODO),
+- ▶️ [Udemy, in an interactive video course format](https://www.udemy.com/course/TODO),
+- 🆓 [Shorter, but free, part of our Udemy course is available on YouTube](https://www.youtube.com/playlist?list=TODO),
+- 🖨️ [Amazon, printable physical book in paperback or hardcover (Kindle available, too)](https://www.amazon.com/dp/TODO),
+- 📚 [Google Play Books, in PDF format](https://play.google.com/store/books/details?id=TODO),
+- 🛍️ [Etsy, in PDF format](https://ditectrev.etsy.com/listing/TODO),
+- 🛒 [eBay, in PDF format](https://www.ebay.com/itm/TODO),
+- 🔄 [Patreon subscription allows you to get access to all of the materials in EPUB and PDF formats. You can also buy separate items on Patreon, but the subscription technically allows us to include all updates for EPUB and PDF formats. Hence, you get EPUB and PDF updates when you subscribe to Patreon](https://patreon.com/Ditectrev?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink).
+
+💰 If you work for a company, you could probably easily claim this expense while learning this topic. For us, it's about being in the game or not.
+
+⭐ Good ratings & reviews help us to survive. Please don't forget to leave a nice one when you purchase an item.
+
+## ✨ This book & course is unlike any Generative Artificial Intelligence (GenAI) book & course you will find online.
+
+✋ Join a live online community and a book & course taught by industry experts and learn about Generative Artificial Intelligence (GenAI). We aim to build an ecosystem of Information Technology (IT) certifications and online courses in cooperation with the technology industry. We believe it will give our students 100% confidence in the pacing market in an open-source environment. We are just at the beginning of our way, so it's even better for you to join now!
+
+[![Join our Discord](images/discord.png 'Join our Discord')](https://discord.gg/RFjtXKfJy3)
+
+## ⌛️ Short and to the point; why should you take the book & course:
+
+1. Always happy to answer your questions 😊
+2. Unhappy? Please raise a refund; we'll always accept it 💸
+3. Learn about topics, such as 😱
+   - Introduction to Generative AI (GenAI):
+     - What is Generative AI (GenAI)?;
+     - When to use a hosted API versus a local model;
+     - How this book is organized;
+   - Hosted Models, APIs, and Your First Working Loop:
+     - Create accounts and spend caps before you write prompts;
+     - Call a model from Python and from JavaScript;
+     - One interface over many providers;
+     - Secrets, logging, and a daily working loop;
+   - Local Models You Can Run Today:
+     - Install a local runner in under an hour;
+     - Pull, test, and swap models without rewriting your app;
+     - When local is no longer enough;
+   - Prompting, Context, and System Instructions:
+     - Write instructions the model can follow;
+     - Context windows as a budget;
+     - Prompt files you can version in Git;
+   - Coding Agents and Skills:
+     - Pick a coding agent and stay with it for a week;
+     - Agent Skills that change the default behavior;
+     - Install and adapt Skills for Real Engineers;
+     - Process packs versus small composable skills;
+     - Make the agent succeed in YOUR repo;
+   - Structured Outputs and Tool Calling:
+     - JSON you can trust;
+     - Function calling and tools;
+     - When a spreadsheet or form is the real interface;
+   - Retrieval-Augmented Generation (RAG):
+     - The working RAG loop;
+     - Ingest documents you actually have;
+     - Indexes and vector stores;
+     - Search that does not embarrass you;
+   - Agents and Multi-Step Workflows:
+     - An agent is a loop with tools, not a personality;
+     - Frameworks you can ship with;
+     - Browser, computer, and workflow agents;
+     - Memory without a junk drawer;
+   - Model Context Protocol (MCP):
+     - What MCP is for;
+     - Run official and community servers;
+     - Write a small MCP server for your own stack;
+   - Evaluation, Tracing, and Guardrails:
+     - Treat prompts and agents like code;
+     - See what the model actually did;
+     - Safety you can operationalize;
+   - Images, Audio, and Other Modalities:
+     - Image generation you can repeat;
+     - Speech in and speech out;
+     - Multimodal apps;
+   - Shipping, Cost, and Operations:
+     - Productize the working loop;
+     - Gateways, caching, and bills;
+     - Adapt a model only when retrieval is not enough;
+     - Privacy, licenses, and data you must not train on;
+   - Common Challenges and Debugging Tips:
+     - Hallucinations, refusals, and silent tool failures;
+     - The agent rewrote the wrong files;
+     - RAG returned the wrong paragraph;
+     - Local model quality collapsed;
+     - Spend spiked overnight;
+     - A 30-day practice plan;
+   - Additional Resources and Reading Materials;
+   - **Much More!**
+4. Real Life examples ✅
+5. The book & course explains the topic fully in-depth 🔬
+
+## ☝️ Book & Course Updates
+
+**[v1.0.0](../../releases/tag/v1.0.0): October 26, 2026.**
+
+- Launch of the book.
+
+**[v1.1.0](../../releases/tag/v1.1.0): December X, 2026.**
+
+- Post-recording improvements.
+
+**[v1.1.0](../../releases/tag/v1.1.0): December X, 2026.**
+
+- Launch of the course.
+
+## 🙋‍♀️ & 🙋‍♂️ Contribution
+
+We are so thankful for every contribution, which makes sure we can deliver top-notch content. Whenever you find a missing resource, broken link in a [Table of Contents](#table-of-contents), the wrong answer, please submit an [issue](../../issues). Even better would be a [Pull Request (PR)](../../pulls).
+
+## Who this book & course is for:
+
+- 👨‍🎓 Enthusiasts of practical education;
+- 👨‍🎓 Everyone who has heard about Generative Artificial Intelligence (GenAI) and would like to know more;
+- 👨‍🎓 Professionalists daily working with technology who want to have a basic grasp of GenAI without burnout;
+- 👨‍🎓 Sceptical Engineers about a book & course solely focused on shipping GenAI products;
+- 👨‍🎓 Self-paced Learners for whom expensive Bootcamps are unaffordable;
+- 👨‍🎓 Students interested in Generative Artificial Intelligence and applied Machine Learning;
+- 👨‍🎓 Students willing to start a career shipping GenAI products;
+- 👨‍🎓 Software Engineers willing to know A to Z about shipping GenAI products;
+
+## Requirements
+
+- 🤩 Excitement to learn!
+- 0️⃣ Prior knowledge is required;
+- ✅ You can learn Generative Artificial Intelligence (GenAI) solely based on our book & course.
+
+## Table of Contents
+
+- [Introduction to Generative AI (GenAI)](#introduction-to-generative-ai-genai)
+  - [What is Generative AI (GenAI)?](#what-is-generative-ai-genai)
+    - [Tokens, context windows, and why they matter on the job](#tokens-context-windows-and-why-they-matter-on-the-job)
+    - [Models, products, and open-weight checkpoints](#models-products-and-open-weight-checkpoints)
+    - [Text, image, audio, and multimodal generation in practice](#text-image-audio-and-multimodal-generation-in-practice)
+  - [When to use a hosted API versus a local model](#when-to-use-a-hosted-api-versus-a-local-model)
+    - [Cost, privacy, latency, and lock-in tradeoffs](#cost-privacy-latency-and-lock-in-tradeoffs)
+    - [OpenAI, Anthropic, Google Gemini, and open-weight options](#openai-anthropic-google-gemini-and-open-weight-options)
+  - [How this book is organized](#how-this-book-is-organized)
+    - [Tools and repositories you will actually open](#tools-and-repositories-you-will-actually-open)
+    - [Working loops instead of theory dumps](#working-loops-instead-of-theory-dumps)
+  - [Summary: Introduction to Generative AI (GenAI)](#summary-introduction-to-generative-ai-genai)
+- [Hosted Models, APIs, and Your First Working Loop](#hosted-models-apis-and-your-first-working-loop)
+  - [Create accounts and spend caps before you write prompts](#create-accounts-and-spend-caps-before-you-write-prompts)
+    - [OpenAI Platform, Anthropic Console, Google AI Studio, and Groq](#openai-platform-anthropic-console-google-ai-studio-and-groq)
+    - [Hugging Face Hub tokens and model cards](#hugging-face-hub-tokens-and-model-cards)
+  - [Call a model from Python and from JavaScript](#call-a-model-from-python-and-from-javascript)
+    - [openai-python and the OpenAI Node SDK](#openai-python-and-the-openai-node-sdk)
+    - [anthropic Python and TypeScript SDKs](#anthropic-python-and-typescript-sdks)
+    - [google-genai and the Gemini API](#google-genai-and-the-gemini-api)
+  - [One interface over many providers](#one-interface-over-many-providers)
+    - [LiteLLM as a unified API](#litellm-as-a-unified-api)
+    - [Vercel AI SDK for app UIs](#vercel-ai-sdk-for-app-uis)
+    - [OpenRouter as a model router](#openrouter-as-a-model-router)
+  - [Secrets, logging, and a daily working loop](#secrets-logging-and-a-daily-working-loop)
+    - [Environment variables, never paste keys into chats](#environment-variables-never-paste-keys-into-chats)
+    - [A repeatable smoke test you run after every model change](#a-repeatable-smoke-test-you-run-after-every-model-change)
+  - [Summary: Hosted Models, APIs, and Your First Working Loop](#summary-hosted-models-apis-and-your-first-working-loop)
+- [Local Models You Can Run Today](#local-models-you-can-run-today)
+  - [Install a local runner in under an hour](#install-a-local-runner-in-under-an-hour)
+    - [Ollama for everyday local chat and APIs](#ollama-for-everyday-local-chat-and-apis)
+    - [llama.cpp and GGUF when you need control](#llamacpp-and-gguf-when-you-need-control)
+    - [Open WebUI as a local ChatGPT-style front end](#open-webui-as-a-local-chatgpt-style-front-end)
+  - [Pull, test, and swap models without rewriting your app](#pull-test-and-swap-models-without-rewriting-your-app)
+    - [Hugging Face Transformers and Hub as the catalog](#hugging-face-transformers-and-hub-as-the-catalog)
+    - [OpenAI-compatible local endpoints](#openai-compatible-local-endpoints)
+  - [When local is no longer enough](#when-local-is-no-longer-enough)
+    - [vLLM for high-throughput serving](#vllm-for-high-throughput-serving)
+    - [SGLang and Text Generation Inference](#sglang-and-text-generation-inference)
+    - [Choosing CPU, Apple Silicon, and NVIDIA GPU paths](#choosing-cpu-apple-silicon-and-nvidia-gpu-paths)
+  - [Summary: Local Models You Can Run Today](#summary-local-models-you-can-run-today)
+- [Prompting, Context, and System Instructions](#prompting-context-and-system-instructions)
+  - [Write instructions the model can follow](#write-instructions-the-model-can-follow)
+    - [System, developer, and user roles](#system-developer-and-user-roles)
+    - [Splitting work, delimiters, and output contracts](#splitting-work-delimiters-and-output-contracts)
+    - [Few-shot examples that help instead of confuse](#few-shot-examples-that-help-instead-of-confuse)
+  - [Context windows as a budget](#context-windows-as-a-budget)
+    - [What to put in the prompt versus retrieve later](#what-to-put-in-the-prompt-versus-retrieve-later)
+    - [Summaries, memory notes, and stale context](#summaries-memory-notes-and-stale-context)
+  - [Prompt files you can version in Git](#prompt-files-you-can-version-in-git)
+    - [Keep prompts next to code, not in a chat history](#keep-prompts-next-to-code-not-in-a-chat-history)
+    - [DSPy when prompts should be optimized, not hand-tuned forever](#dspy-when-prompts-should-be-optimized-not-hand-tuned-forever)
+  - [Summary: Prompting, Context, and System Instructions](#summary-prompting-context-and-system-instructions)
+- [Coding Agents and Skills](#coding-agents-and-skills)
+  - [Pick a coding agent and stay with it for a week](#pick-a-coding-agent-and-stay-with-it-for-a-week)
+    - [Cursor, Claude Code, Codex, and GitHub Copilot](#cursor-claude-code-codex-and-github-copilot)
+    - [Aider and OpenCode in the terminal](#aider-and-opencode-in-the-terminal)
+    - [What Continue was, and why you should not start a new project on it](#what-continue-was-and-why-you-should-not-start-a-new-project-on-it)
+  - [Agent Skills that change the default behavior](#agent-skills-that-change-the-default-behavior)
+    - [Install and adapt Skills for Real Engineers](#install-and-adapt-skills-for-real-engineers)
+    - [Grill, spec, tickets, TDD, and code review loops](#grill-spec-tickets-tdd-and-code-review-loops)
+    - [Cursor skills, Claude Code plugins, and the skills.sh installer](#cursor-skills-claude-code-plugins-and-the-skillssh-installer)
+    - [Anthropic skills and other public skill catalogs](#anthropic-skills-and-other-public-skill-catalogs)
+  - [Process packs versus small composable skills](#process-packs-versus-small-composable-skills)
+    - [Spec Kit, BMAD, and GSD: what they own and what they hide](#spec-kit-bmad-and-gsd-what-they-own-and-what-they-hide)
+    - [When a thin skill beats a full methodology](#when-a-thin-skill-beats-a-full-methodology)
+  - [Make the agent succeed in YOUR repo](#make-the-agent-succeed-in-your-repo)
+    - [AGENTS.md, CLAUDE.md, and Cursor rules](#agentsmd-claudemd-and-cursor-rules)
+    - [Repo maps, tests, and browser feedback loops](#repo-maps-tests-and-browser-feedback-loops)
+    - [Handoffs so the next session does not start from zero](#handoffs-so-the-next-session-does-not-start-from-zero)
+  - [Summary: Coding Agents and Skills](#summary-coding-agents-and-skills)
+- [Structured Outputs and Tool Calling](#structured-outputs-and-tool-calling)
+  - [JSON you can trust](#json-you-can-trust)
+    - [Native structured outputs from hosted APIs](#native-structured-outputs-from-hosted-apis)
+    - [Instructor and Pydantic for validated objects](#instructor-and-pydantic-for-validated-objects)
+    - [Outlines and BAML for constrained generation](#outlines-and-baml-for-constrained-generation)
+  - [Function calling and tools](#function-calling-and-tools)
+    - [OpenAI tools, Anthropic tool use, and Gemini function calling](#openai-tools-anthropic-tool-use-and-gemini-function-calling)
+    - [PydanticAI for typed Python agents](#pydanticai-for-typed-python-agents)
+    - [Retries, validation errors, and refusing to parse prose](#retries-validation-errors-and-refusing-to-parse-prose)
+  - [When a spreadsheet or form is the real interface](#when-a-spreadsheet-or-form-is-the-real-interface)
+    - [Extract, classify, and fill records from messy text](#extract-classify-and-fill-records-from-messy-text)
+  - [Summary: Structured Outputs and Tool Calling](#summary-structured-outputs-and-tool-calling)
+- [Retrieval-Augmented Generation (RAG)](#retrieval-augmented-generation-rag)
+  - [The working RAG loop](#the-working-rag-loop)
+    - [Ingest, chunk, embed, retrieve, generate](#ingest-chunk-embed-retrieve-generate)
+    - [When RAG is the wrong fix](#when-rag-is-the-wrong-fix)
+  - [Ingest documents you actually have](#ingest-documents-you-actually-have)
+    - [Unstructured and Docling for PDFs and office files](#unstructured-and-docling-for-pdfs-and-office-files)
+    - [Firecrawl and Crawl4AI for websites](#firecrawl-and-crawl4ai-for-websites)
+  - [Indexes and vector stores](#indexes-and-vector-stores)
+    - [LlamaIndex as a data framework](#llamaindex-as-a-data-framework)
+    - [LangChain retrievers and loaders](#langchain-retrievers-and-loaders)
+    - [Haystack pipelines](#haystack-pipelines)
+    - [Chroma, Qdrant, Weaviate, and Milvus](#chroma-qdrant-weaviate-and-milvus)
+  - [Search that does not embarrass you](#search-that-does-not-embarrass-you)
+    - [Hybrid search, rerankers, and citations](#hybrid-search-rerankers-and-citations)
+    - [Microsoft GraphRAG when relationships matter](#microsoft-graphrag-when-relationships-matter)
+    - [Evaluating retrieval before you tune the prompt](#evaluating-retrieval-before-you-tune-the-prompt)
+  - [Summary: Retrieval-Augmented Generation (RAG)](#summary-retrieval-augmented-generation-rag)
+- [Agents and Multi-Step Workflows](#agents-and-multi-step-workflows)
+  - [An agent is a loop with tools, not a personality](#an-agent-is-a-loop-with-tools-not-a-personality)
+    - [Plan, act, observe, stop](#plan-act-observe-stop)
+    - [Human approval gates you should not skip](#human-approval-gates-you-should-not-skip)
+  - [Frameworks you can ship with](#frameworks-you-can-ship-with)
+    - [LangGraph for stateful graphs and checkpoints](#langgraph-for-stateful-graphs-and-checkpoints)
+    - [OpenAI Agents SDK](#openai-agents-sdk)
+    - [CrewAI crews and flows](#crewai-crews-and-flows)
+    - [Microsoft Agent Framework after AutoGen](#microsoft-agent-framework-after-autogen)
+    - [Hugging Face smolagents](#hugging-face-smolagents)
+  - [Browser, computer, and workflow agents](#browser-computer-and-workflow-agents)
+    - [Playwright-based browsing and Stagehand](#playwright-based-browsing-and-stagehand)
+    - [n8n, Dify, Flowise, and Langflow when you want a canvas](#n8n-dify-flowise-and-langflow-when-you-want-a-canvas)
+  - [Memory without a junk drawer](#memory-without-a-junk-drawer)
+    - [What to store, what to forget, and what to retrieve](#what-to-store-what-to-forget-and-what-to-retrieve)
+    - [Mem0, Letta, and Graphiti as starting points](#mem0-letta-and-graphiti-as-starting-points)
+  - [Summary: Agents and Multi-Step Workflows](#summary-agents-and-multi-step-workflows)
+- [Model Context Protocol (MCP)](#model-context-protocol-mcp)
+  - [What MCP is for](#what-mcp-is-for)
+    - [Tools, resources, and prompts as a standard](#tools-resources-and-prompts-as-a-standard)
+    - [Clients you already use: Claude, Cursor, and Copilot](#clients-you-already-use-claude-cursor-and-copilot)
+  - [Run official and community servers](#run-official-and-community-servers)
+    - [The MCP specification and reference servers](#the-mcp-specification-and-reference-servers)
+    - [Python SDK and TypeScript SDK](#python-sdk-and-typescript-sdk)
+  - [Write a small MCP server for your own stack](#write-a-small-mcp-server-for-your-own-stack)
+    - [Expose one internal API as tools](#expose-one-internal-api-as-tools)
+    - [Auth, allowlists, and the blast radius of a tool](#auth-allowlists-and-the-blast-radius-of-a-tool)
+  - [Summary: Model Context Protocol (MCP)](#summary-model-context-protocol-mcp)
+- [Evaluation, Tracing, and Guardrails](#evaluation-tracing-and-guardrails)
+  - [Treat prompts and agents like code](#treat-prompts-and-agents-like-code)
+    - [Golden sets, regressions, and pass or fail assertions](#golden-sets-regressions-and-pass-or-fail-assertions)
+    - [promptfoo for prompt and red-team tests](#promptfoo-for-prompt-and-red-team-tests)
+    - [Ragas and DeepEval for RAG and agent checks](#ragas-and-deepeval-for-rag-and-agent-checks)
+  - [See what the model actually did](#see-what-the-model-actually-did)
+    - [Langfuse traces](#langfuse-traces)
+    - [Arize Phoenix](#arize-phoenix)
+    - [LangSmith and OpenTelemetry-style traces](#langsmith-and-opentelemetry-style-traces)
+  - [Safety you can operationalize](#safety-you-can-operationalize)
+    - [PII, secrets, and prompt injection](#pii-secrets-and-prompt-injection)
+    - [NVIDIA NeMo Guardrails and Guardrails AI](#nvidia-nemo-guardrails-and-guardrails-ai)
+    - [Microsoft Presidio for detection and redaction](#microsoft-presidio-for-detection-and-redaction)
+  - [Summary: Evaluation, Tracing, and Guardrails](#summary-evaluation-tracing-and-guardrails)
+- [Images, Audio, and Other Modalities](#images-audio-and-other-modalities)
+  - [Image generation you can repeat](#image-generation-you-can-repeat)
+    - [ChatGPT Images, Gemini, and Flux-class models](#chatgpt-images-gemini-and-flux-class-models)
+    - [Diffusers, ComfyUI, and Automatic1111 WebUI](#diffusers-comfyui-and-automatic1111-webui)
+  - [Speech in and speech out](#speech-in-and-speech-out)
+    - [OpenAI Whisper and whisper.cpp](#openai-whisper-and-whispercpp)
+    - [Realtime voice stacks with LiveKit Agents](#realtime-voice-stacks-with-livekit-agents)
+  - [Multimodal apps](#multimodal-apps)
+    - [Vision in the same working loop as text](#vision-in-the-same-working-loop-as-text)
+    - [When a screenshot beats a thousand tokens of HTML](#when-a-screenshot-beats-a-thousand-tokens-of-html)
+  - [Summary: Images, Audio, and Other Modalities](#summary-images-audio-and-other-modalities)
+- [Shipping, Cost, and Operations](#shipping-cost-and-operations)
+  - [Productize the working loop](#productize-the-working-loop)
+    - [Open WebUI, Lobe Chat, and your own thin UI](#open-webui-lobe-chat-and-your-own-thin-ui)
+    - [Streaming, timeouts, and fallbacks](#streaming-timeouts-and-fallbacks)
+  - [Gateways, caching, and bills](#gateways-caching-and-bills)
+    - [LiteLLM proxy, Helicone, and Portkey](#litellm-proxy-helicone-and-portkey)
+    - [Token budgets, caching, and cheaper model routing](#token-budgets-caching-and-cheaper-model-routing)
+  - [Adapt a model only when retrieval is not enough](#adapt-a-model-only-when-retrieval-is-not-enough)
+    - [PEFT, TRL, Unsloth, Axolotl, and LlamaFactory](#peft-trl-unsloth-axolotl-and-llamafactory)
+    - [LoRA adapters on a local GPU versus paying for fine-tunes](#lora-adapters-on-a-local-gpu-versus-paying-for-fine-tunes)
+  - [Privacy, licenses, and data you must not train on](#privacy-licenses-and-data-you-must-not-train-on)
+    - [Open weights versus open source](#open-weights-versus-open-source)
+    - [Customer data, logs, and retention](#customer-data-logs-and-retention)
+  - [Summary: Shipping, Cost, and Operations](#summary-shipping-cost-and-operations)
+- [Common Challenges and Debugging Tips](#common-challenges-and-debugging-tips)
+  - [Hallucinations, refusals, and silent tool failures](#hallucinations-refusals-and-silent-tool-failures)
+    - [A debug order: prompt, context, tools, then the model](#a-debug-order-prompt-context-tools-then-the-model)
+  - [The agent rewrote the wrong files](#the-agent-rewrote-the-wrong-files)
+    - [Smaller diffs, tests first, and skill-driven review](#smaller-diffs-tests-first-and-skill-driven-review)
+  - [RAG returned the wrong paragraph](#rag-returned-the-wrong-paragraph)
+    - [Chunking, metadata, and hybrid search checks](#chunking-metadata-and-hybrid-search-checks)
+  - [Local model quality collapsed](#local-model-quality-collapsed)
+    - [Quantization, context length, and sampler settings](#quantization-context-length-and-sampler-settings)
+  - [Spend spiked overnight](#spend-spiked-overnight)
+    - [Caps, tracing, and cheaper defaults](#caps-tracing-and-cheaper-defaults)
+  - [A 30-day practice plan](#a-30-day-practice-plan)
+    - [What done looks like after one month](#what-done-looks-like-after-one-month)
+  - [Summary: Common Challenges and Debugging Tips](#summary-common-challenges-and-debugging-tips)
+- [Additional Resources and Reading Materials](#additional-resources-and-reading-materials)
+  - [Recommended Tools and Software for GenAI](#recommended-tools-and-software-for-genai)
+    - [Hosted model platforms](#hosted-model-platforms)
+    - [Local runtimes and serving engines](#local-runtimes-and-serving-engines)
+    - [Coding agents and skill catalogs](#coding-agents-and-skill-catalogs)
+    - [RAG, agents, MCP, and evaluation repositories](#rag-agents-mcp-and-evaluation-repositories)
+  - [Further Reading and Industry Publications](#further-reading-and-industry-publications)
+  - [Summary: Additional Resources and Reading Materials](#summary-additional-resources-and-reading-materials)
+
+This book includes [Skills for Real Engineers](https://github.com/mattpocock/skills).
