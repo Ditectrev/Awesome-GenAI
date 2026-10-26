@@ -46,6 +46,7 @@ There are many ways to support us; in exchange, you'll get this material in a pr
      - When local is no longer enough;
    - Prompting, Context, and System Instructions:
      - Write instructions the model can follow;
+     - JSON prompts;
      - Context windows as a budget;
      - Prompt files you can version in Git;
    - Coding Agents and Skills:
@@ -183,6 +184,9 @@ We are so thankful for every contribution, which makes sure we can deliver top-n
     - [System, developer, and user roles](#system-developer-and-user-roles)
     - [Splitting work, delimiters, and output contracts](#splitting-work-delimiters-and-output-contracts)
     - [Few-shot examples that help instead of confuse](#few-shot-examples-that-help-instead-of-confuse)
+  - [JSON prompts](#json-prompts)
+    - [Write the prompt as JSON, not only the answer](#write-the-prompt-as-json-not-only-the-answer)
+    - [When JSON prompts are enough versus structured outputs](#when-json-prompts-are-enough-versus-structured-outputs)
   - [Context windows as a budget](#context-windows-as-a-budget)
     - [What to put in the prompt versus retrieve later](#what-to-put-in-the-prompt-versus-retrieve-later)
     - [Summaries, memory notes, and stale context](#summaries-memory-notes-and-stale-context)
