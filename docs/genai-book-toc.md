@@ -85,6 +85,7 @@ Primary GitHub repositories for body links are listed **after** the TOC (not nes
     - [Aider and OpenCode in the terminal](#aider-and-opencode-in-the-terminal)
     - [What Continue was, and why you should not start a new project on it](#what-continue-was-and-why-you-should-not-start-a-new-project-on-it)
   - [Agent Skills that change the default behavior](#agent-skills-that-change-the-default-behavior)
+    - [SKILL.md as the skill file](#skillmd-as-the-skill-file)
     - [Install and adapt Skills for Real Engineers](#install-and-adapt-skills-for-real-engineers)
     - [Grill, spec, tickets, TDD, and code review loops](#grill-spec-tickets-tdd-and-code-review-loops)
     - [Cursor skills, Claude Code plugins, and the skills.sh installer](#cursor-skills-claude-code-plugins-and-the-skillssh-installer)

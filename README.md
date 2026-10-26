@@ -54,6 +54,7 @@ There are many ways to support us; in exchange, you'll get this material in a pr
    - Coding Agents and Skills:
      - Pick a coding agent and stay with it for a week;
      - Agent Skills that change the default behavior;
+     - SKILL.md as the skill file;
      - Install and adapt Skills for Real Engineers;
      - Process packs versus small composable skills;
      - Make the agent succeed in YOUR repo;
@@ -209,6 +210,7 @@ We are so thankful for every contribution, which makes sure we can deliver top-n
     - [Aider and OpenCode in the terminal](#aider-and-opencode-in-the-terminal)
     - [What Continue was, and why you should not start a new project on it](#what-continue-was-and-why-you-should-not-start-a-new-project-on-it)
   - [Agent Skills that change the default behavior](#agent-skills-that-change-the-default-behavior)
+    - [SKILL.md as the skill file](#skillmd-as-the-skill-file)
     - [Install and adapt Skills for Real Engineers](#install-and-adapt-skills-for-real-engineers)
     - [Grill, spec, tickets, TDD, and code review loops](#grill-spec-tickets-tdd-and-code-review-loops)
     - [Cursor skills, Claude Code plugins, and the skills.sh installer](#cursor-skills-claude-code-plugins-and-the-skillssh-installer)
