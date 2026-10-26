@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Awesome GenAI Book & Course: Generative Artificial Intelligence (GenAI)</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/serif.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+		<style>
+			.fragment.blur {
+				filter: blur(1rem);
+			}
+
+			.fragment.blur.visible {
+				filter: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+# Welcome <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+## Introduction to Generative AI (GenAI) <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### What is Generative AI (GenAI)? <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Generation, not lookup <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A model is not a product <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Mix providers: [OpenAI](https://openai.com/), [Groq](https://groq.com/), [Ollama](https://ollama.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Products: [ChatGPT](https://chatgpt.com/), [Claude](https://claude.ai/), [Gemini](https://gemini.google.com/), [Le Chat](https://chat.mistral.ai/), [DeepSeek](https://www.deepseek.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Tokens, context windows, and why they matter on the job <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A token is the chunk the model actually sees <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Billed and limited in tokens, not words <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Count with the provider tokenizer, not `len(text)` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [tiktoken](https://github.com/openai/tiktoken) and the [OpenAI tokenizer](https://platform.openai.com/tokenizer) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Claude token counting](https://docs.anthropic.com/en/docs/build-with-claude/token-counting) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Gemini API](https://ai.google.dev/gemini-api/docs) count methods <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Tokens, context windows, and why they matter on the job <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Context window = system + retrieval + tools + history + reply <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A bigger window is not free <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Durable rules in a system prompt, not every user turn <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Large documents behind retrieval, not pasted whole <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Measure prompt tokens and completion tokens separately <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Count tokens before you ship the prompt <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Models, products, and open-weight checkpoints <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A **model** is the trained network and tokenizer <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Hosted models: [OpenAI Platform](https://platform.openai.com/), [Anthropic Console](https://console.anthropic.com/), [Gemini API](https://ai.google.dev/gemini-api/docs), [Mistral AI](https://mistral.ai/), [DeepSeek API](https://api-docs.deepseek.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A **product** wraps a model: [ChatGPT](https://chatgpt.com/), [Claude](https://claude.ai/), [Gemini](https://gemini.google.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* An **open-weight checkpoint** is a file of weights, usually from the [Hugging Face Hub](https://huggingface.co/models) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Run with [Ollama](https://ollama.com/), [llama.cpp](https://github.com/ggml-org/llama.cpp), [vLLM](https://github.com/vllm-project/vllm), [Transformers](https://github.com/huggingface/transformers) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Open weights are not automatically open source; read the [model card](https://huggingface.co/docs/hub/en/model-cards) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Write down model id, product or API, and whether you can host it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Text, image, audio, and multimodal generation in practice <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Text first: [OpenAI](https://platform.openai.com/docs/guides/text), [Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/text-generation), [Gemini](https://ai.google.dev/gemini-api/docs), [Mistral](https://docs.mistral.ai/), [DeepSeek](https://api-docs.deepseek.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Images: [ChatGPT](https://chatgpt.com/), [OpenAI Images API](https://platform.openai.com/docs/guides/images), [Gemini image generation](https://ai.google.dev/gemini-api/docs/image-generation) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Local images: [Diffusers](https://github.com/huggingface/diffusers), [ComfyUI](https://github.com/Comfy-Org/ComfyUI), [AUTOMATIC1111 WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui), [Flux](https://blackforestlabs.ai/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Audio: [OpenAI Whisper](https://github.com/openai/whisper), [whisper.cpp](https://github.com/ggml-org/whisper.cpp), later [LiveKit Agents](https://github.com/livekit/agents) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Multimodal: screenshot, PDF page, or photo plus a question <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Start with text; add other modalities as a second loop <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### How generative models are trained <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* You do not train a frontier model to ship <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Stack: machine learning, pretraining, instruction tuning, preference data <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Fine-tuning stays under Shipping, Cost, and Operations <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Machine learning basics you need on the job <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Train versus serve: production is almost always inference <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Loss and generalization: demo success is not your tickets <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Supervision: next-token, instruction-response pairs, rankings <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Training is a build pipeline you rarely run <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Pretraining, datasets, and data licenses <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Pretraining is next-token prediction on a huge mix <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Read dataset and license on the [Hugging Face model card](https://huggingface.co/docs/hub/en/model-cards) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Hosted terms: [OpenAI](https://openai.com/policies/row-privacy-policy/), [Anthropic](https://www.anthropic.com/legal/privacy), [Google Gemini](https://ai.google.dev/gemini-api/terms), [Mistral](https://mistral.ai/terms/), [DeepSeek](https://www.deepseek.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not train on customer tickets without a written right <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* If you are unsure, retrieval beats training <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Hugging Face Datasets as a catalog <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Hugging Face Datasets](https://github.com/huggingface/datasets) library and [Hub catalog](https://huggingface.co/datasets) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Find what a checkpoint already saw, or a close proxy <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Load an eval set before you invent one <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Read the license on the dataset card, not only the model card <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Prefer streaming and documented schemas <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You need it for evals and adapters, not for a hosted API call <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Instruction tuning, RLHF, and preference data <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Instruction-tuned models follow "summarize this" and "return JSON" <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Preference data: rank answer A versus answer B <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [RLHF](https://openai.com/index/instruction-following/) and [Constitutional AI](https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Open tooling: [Hugging Face TRL](https://github.com/huggingface/trl) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Chat APIs are already instruction-tuned <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Preference tuning is not a knowledge-cutoff refresh <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### When to use a hosted API versus a local model <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Who runs the GPUs, who sees the bytes, who you page at 2 a.m. <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Hosted API: a URL, a key, and a bill <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Local: [Ollama](https://ollama.com/), [llama.cpp](https://github.com/ggml-org/llama.cpp), [Open WebUI](https://github.com/open-webui/open-webui), [vLLM](https://github.com/vllm-project/vllm) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Default to a hosted API for the first working loop <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Cost, privacy, latency, and lock-in tradeoffs <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Cost: APIs per token; local in GPUs, electricity, and people <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Privacy: read training and retention terms; local is not a privacy program by itself <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Latency: measure time-to-first-token; [Groq](https://groq.com/) as a fast hosted path <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Lock-in: OpenAI-compatible servers with [Ollama](https://ollama.com/), [vLLM](https://github.com/vllm-project/vllm), [llama.cpp](https://github.com/ggml-org/llama.cpp) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Prototype on a hosted API, freeze an interface, then decide <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### OpenAI, Anthropic, Google Gemini, Mistral, DeepSeek, and open-weight options <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [OpenAI](https://openai.com/): [OpenAI Platform](https://platform.openai.com/) for APIs, not only [ChatGPT](https://chatgpt.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Anthropic](https://www.anthropic.com/): [Claude](https://claude.ai/), long context, [Claude Code](https://github.com/anthropics/claude-code) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Google Gemini](https://ai.google.dev/gemini-api/docs): [Google AI Studio](https://aistudio.google.com/) vs Vertex vs consumer [Gemini](https://gemini.google.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Mistral](https://mistral.ai/): [hosted console](https://console.mistral.ai/) plus Hub weights <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [DeepSeek](https://www.deepseek.com/): [DeepSeek API](https://api-docs.deepseek.com/) and [DeepSeek-V3](https://github.com/deepseek-ai/DeepSeek-V3) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### OpenAI, Anthropic, Google Gemini, Mistral, DeepSeek, and open-weight options <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Llama](https://huggingface.co/meta-llama) and other Hub checkpoints <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Learn on [Ollama](https://ollama.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Control with [llama.cpp](https://github.com/ggml-org/llama.cpp) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Throughput with [vLLM](https://github.com/vllm-project/vllm) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Local chat UI: [Open WebUI](https://github.com/open-webui/open-webui) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Groq](https://groq.com/): hosted, fast, often serving open-weight models <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### How this book is organized <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Every later chapter is a working loop <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Tools-heavy; no CodeSandboxes in this book <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Chapter names in the Table of Contents are the contract <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Tools and repositories you will actually open <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [OpenAI Platform](https://platform.openai.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Anthropic Console](https://console.anthropic.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Google AI Studio](https://aistudio.google.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Mistral](https://console.mistral.ai/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [DeepSeek](https://platform.deepseek.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Groq](https://groq.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Tools and repositories you will actually open <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Hugging Face Hub](https://huggingface.co/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Hugging Face Datasets](https://huggingface.co/datasets) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Hugging Face Transformers](https://github.com/huggingface/transformers) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Ollama](https://ollama.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [llama.cpp](https://github.com/ggml-org/llama.cpp) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Open WebUI](https://github.com/open-webui/open-webui) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Tools and repositories you will actually open <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Cursor](https://cursor.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Claude Code](https://github.com/anthropics/claude-code) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Skills for Real Engineers](https://github.com/mattpocock/skills) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [LiteLLM](https://github.com/BerriAI/litellm) or [OpenRouter](https://openrouter.ai/) when the third SDK appears <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One hosted key with a spend cap, plus [Ollama](https://ollama.com/) if you can <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Working loops instead of theory dumps <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Call the model with a fixed prompt and a recorded model id <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Inspect the raw output, not only the pretty UI <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Check one assertion <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Change one thing and rerun <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next: Hosted Models, APIs, and Your First Working Loop <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Introduction to Generative AI (GenAI) <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Work in tokens and context windows <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Separate models, products, and open-weight checkpoints <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Training = pretraining + instruction + preference data <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Hugging Face Datasets](https://huggingface.co/docs/datasets) when data actually matters <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Hosted first: [OpenAI](https://openai.com/), [Anthropic](https://www.anthropic.com/), [Google Gemini](https://ai.google.dev/gemini-api/docs), [Mistral](https://mistral.ai/), [DeepSeek](https://www.deepseek.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Local: [Ollama](https://ollama.com/) for privacy, cost, and lock-in <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next loop: Hosted Models, APIs, and Your First Working Loop <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+					</textarea>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: 'c/t',
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
