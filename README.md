@@ -71,7 +71,7 @@ There are many ways to support us; in exchange, you'll get this material in a pr
      - Frameworks you can ship with;
      - Mastra as a TypeScript agent framework;
      - Browser, computer, and workflow agents;
-     - Memory without a junk drawer;
+     - Memory engineering;
    - Model Context Protocol (MCP):
      - What MCP is for;
      - Run official and community servers;
@@ -264,8 +264,9 @@ We are so thankful for every contribution, which makes sure we can deliver top-n
   - [Browser, computer, and workflow agents](#browser-computer-and-workflow-agents)
     - [Playwright-based browsing and Stagehand](#playwright-based-browsing-and-stagehand)
     - [n8n, Dify, Flowise, and Langflow when you want a canvas](#n8n-dify-flowise-and-langflow-when-you-want-a-canvas)
-  - [Memory without a junk drawer](#memory-without-a-junk-drawer)
+  - [Memory engineering](#memory-engineering)
     - [What to store, what to forget, and what to retrieve](#what-to-store-what-to-forget-and-what-to-retrieve)
+    - [Working memory versus long-term memory](#working-memory-versus-long-term-memory)
     - [Mem0, Letta, and Graphiti as starting points](#mem0-letta-and-graphiti-as-starting-points)
   - [Summary: Agents and Multi-Step Workflows](#summary-agents-and-multi-step-workflows)
 - [Model Context Protocol (MCP)](#model-context-protocol-mcp)
