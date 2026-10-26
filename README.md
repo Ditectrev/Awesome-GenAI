@@ -56,6 +56,7 @@ There are many ways to support us; in exchange, you'll get this material in a pr
      - Agent Skills that change the default behavior;
      - SKILL.md as the skill file;
      - Install and adapt Skills for Real Engineers;
+     - Agent hooks;
      - Process packs versus small composable skills;
      - Make the agent succeed in YOUR repo;
    - Structured Outputs and Tool Calling:
@@ -215,6 +216,9 @@ We are so thankful for every contribution, which makes sure we can deliver top-n
     - [Grill, spec, tickets, TDD, and code review loops](#grill-spec-tickets-tdd-and-code-review-loops)
     - [Cursor skills, Claude Code plugins, and the skills.sh installer](#cursor-skills-claude-code-plugins-and-the-skillssh-installer)
     - [Anthropic skills and other public skill catalogs](#anthropic-skills-and-other-public-skill-catalogs)
+  - [Agent hooks](#agent-hooks)
+    - [Cursor hooks and Claude Code hooks](#cursor-hooks-and-claude-code-hooks)
+    - [When a hook beats a skill](#when-a-hook-beats-a-skill)
   - [Process packs versus small composable skills](#process-packs-versus-small-composable-skills)
     - [Spec Kit, BMAD, and GSD: what they own and what they hide](#spec-kit-bmad-and-gsd-what-they-own-and-what-they-hide)
     - [When a thin skill beats a full methodology](#when-a-thin-skill-beats-a-full-methodology)
