@@ -37,6 +37,7 @@ There are many ways to support us; in exchange, you'll get this material in a pr
    - Hosted Models, APIs, and Your First Working Loop:
      - Create accounts and spend caps before you write prompts;
      - Call a model from Python and from JavaScript;
+     - Mistral AI and DeepSeek APIs;
      - One interface over many providers;
      - Secrets, logging, and a daily working loop;
    - Local Models You Can Run Today:
@@ -141,19 +142,21 @@ We are so thankful for every contribution, which makes sure we can deliver top-n
     - [Text, image, audio, and multimodal generation in practice](#text-image-audio-and-multimodal-generation-in-practice)
   - [When to use a hosted API versus a local model](#when-to-use-a-hosted-api-versus-a-local-model)
     - [Cost, privacy, latency, and lock-in tradeoffs](#cost-privacy-latency-and-lock-in-tradeoffs)
-    - [OpenAI, Anthropic, Google Gemini, and open-weight options](#openai-anthropic-google-gemini-and-open-weight-options)
+    - [OpenAI, Anthropic, Google Gemini, Mistral, DeepSeek, and open-weight options](#openai-anthropic-google-gemini-mistral-deepseek-and-open-weight-options)
   - [How this book is organized](#how-this-book-is-organized)
     - [Tools and repositories you will actually open](#tools-and-repositories-you-will-actually-open)
     - [Working loops instead of theory dumps](#working-loops-instead-of-theory-dumps)
   - [Summary: Introduction to Generative AI (GenAI)](#summary-introduction-to-generative-ai-genai)
 - [Hosted Models, APIs, and Your First Working Loop](#hosted-models-apis-and-your-first-working-loop)
   - [Create accounts and spend caps before you write prompts](#create-accounts-and-spend-caps-before-you-write-prompts)
-    - [OpenAI Platform, Anthropic Console, Google AI Studio, and Groq](#openai-platform-anthropic-console-google-ai-studio-and-groq)
+    - [OpenAI Platform, Anthropic Console, Google AI Studio, Groq, Mistral, and DeepSeek](#openai-platform-anthropic-console-google-ai-studio-groq-mistral-and-deepseek)
     - [Hugging Face Hub tokens and model cards](#hugging-face-hub-tokens-and-model-cards)
   - [Call a model from Python and from JavaScript](#call-a-model-from-python-and-from-javascript)
     - [openai-python and the OpenAI Node SDK](#openai-python-and-the-openai-node-sdk)
     - [anthropic Python and TypeScript SDKs](#anthropic-python-and-typescript-sdks)
     - [google-genai and the Gemini API](#google-genai-and-the-gemini-api)
+    - [mistralai Python and TypeScript SDKs](#mistralai-python-and-typescript-sdks)
+    - [DeepSeek API and OpenAI-compatible clients](#deepseek-api-and-openai-compatible-clients)
   - [One interface over many providers](#one-interface-over-many-providers)
     - [LiteLLM as a unified API](#litellm-as-a-unified-api)
     - [Vercel AI SDK for app UIs](#vercel-ai-sdk-for-app-uis)
