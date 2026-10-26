@@ -65,6 +65,7 @@ Primary GitHub repositories for body links are listed **after** the TOC (not nes
   - [Summary: Local Models You Can Run Today](#summary-local-models-you-can-run-today)
 - [Prompting, Context, and System Instructions](#prompting-context-and-system-instructions)
   - [Write instructions the model can follow](#write-instructions-the-model-can-follow)
+    - [System prompts](#system-prompts)
     - [System, developer, and user roles](#system-developer-and-user-roles)
     - [Splitting work, delimiters, and output contracts](#splitting-work-delimiters-and-output-contracts)
     - [Few-shot examples that help instead of confuse](#few-shot-examples-that-help-instead-of-confuse)
