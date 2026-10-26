@@ -87,6 +87,7 @@ There are many ways to support us; in exchange, you'll get this material in a pr
      - Productize the working loop;
      - Gateways, caching, and bills;
      - Adapt a model only when retrieval is not enough;
+     - QLoRA (Quantized Low-Rank Adaptation);
      - Privacy, licenses, and data you must not train on;
    - Common Challenges and Debugging Tips:
      - Hallucinations, refusals, and silent tool failures;
@@ -311,6 +312,7 @@ We are so thankful for every contribution, which makes sure we can deliver top-n
   - [Adapt a model only when retrieval is not enough](#adapt-a-model-only-when-retrieval-is-not-enough)
     - [PEFT, TRL, Unsloth, Axolotl, and LlamaFactory](#peft-trl-unsloth-axolotl-and-llamafactory)
     - [LoRA adapters on a local GPU versus paying for fine-tunes](#lora-adapters-on-a-local-gpu-versus-paying-for-fine-tunes)
+    - [QLoRA (Quantized Low-Rank Adaptation)](#qlora-quantized-low-rank-adaptation)
   - [Privacy, licenses, and data you must not train on](#privacy-licenses-and-data-you-must-not-train-on)
     - [Open weights versus open source](#open-weights-versus-open-source)
     - [Customer data, logs, and retention](#customer-data-logs-and-retention)
