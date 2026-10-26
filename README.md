@@ -65,6 +65,7 @@ There are many ways to support us; in exchange, you'll get this material in a pr
    - Agents and Multi-Step Workflows:
      - An agent is a loop with tools, not a personality;
      - Frameworks you can ship with;
+     - Mastra as a TypeScript agent framework;
      - Browser, computer, and workflow agents;
      - Memory without a junk drawer;
    - Model Context Protocol (MCP):
@@ -243,6 +244,7 @@ We are so thankful for every contribution, which makes sure we can deliver top-n
     - [CrewAI crews and flows](#crewai-crews-and-flows)
     - [Microsoft Agent Framework after AutoGen](#microsoft-agent-framework-after-autogen)
     - [Hugging Face smolagents](#hugging-face-smolagents)
+    - [Mastra as a TypeScript agent framework](#mastra-as-a-typescript-agent-framework)
   - [Browser, computer, and workflow agents](#browser-computer-and-workflow-agents)
     - [Playwright-based browsing and Stagehand](#playwright-based-browsing-and-stagehand)
     - [n8n, Dify, Flowise, and Langflow when you want a canvas](#n8n-dify-flowise-and-langflow-when-you-want-a-canvas)
