@@ -32,6 +32,7 @@ There are many ways to support us; in exchange, you'll get this material in a pr
 3. Learn about topics, such as 😱
    - Introduction to Generative AI (GenAI):
      - What is Generative AI (GenAI)?;
+     - How generative models are trained;
      - When to use a hosted API versus a local model;
      - How this book is organized;
    - Hosted Models, APIs, and Your First Working Loop:
@@ -141,6 +142,11 @@ We are so thankful for every contribution, which makes sure we can deliver top-n
     - [Tokens, context windows, and why they matter on the job](#tokens-context-windows-and-why-they-matter-on-the-job)
     - [Models, products, and open-weight checkpoints](#models-products-and-open-weight-checkpoints)
     - [Text, image, audio, and multimodal generation in practice](#text-image-audio-and-multimodal-generation-in-practice)
+  - [How generative models are trained](#how-generative-models-are-trained)
+    - [Machine learning basics you need on the job](#machine-learning-basics-you-need-on-the-job)
+    - [Pretraining, datasets, and data licenses](#pretraining-datasets-and-data-licenses)
+    - [Hugging Face Datasets as a catalog](#hugging-face-datasets-as-a-catalog)
+    - [Instruction tuning, RLHF, and preference data](#instruction-tuning-rlhf-and-preference-data)
   - [When to use a hosted API versus a local model](#when-to-use-a-hosted-api-versus-a-local-model)
     - [Cost, privacy, latency, and lock-in tradeoffs](#cost-privacy-latency-and-lock-in-tradeoffs)
     - [OpenAI, Anthropic, Google Gemini, Mistral, DeepSeek, and open-weight options](#openai-anthropic-google-gemini-mistral-deepseek-and-open-weight-options)

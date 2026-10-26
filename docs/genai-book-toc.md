@@ -20,6 +20,11 @@ Primary GitHub repositories for body links are listed **after** the TOC (not nes
     - [Tokens, context windows, and why they matter on the job](#tokens-context-windows-and-why-they-matter-on-the-job)
     - [Models, products, and open-weight checkpoints](#models-products-and-open-weight-checkpoints)
     - [Text, image, audio, and multimodal generation in practice](#text-image-audio-and-multimodal-generation-in-practice)
+  - [How generative models are trained](#how-generative-models-are-trained)
+    - [Machine learning basics you need on the job](#machine-learning-basics-you-need-on-the-job)
+    - [Pretraining, datasets, and data licenses](#pretraining-datasets-and-data-licenses)
+    - [Hugging Face Datasets as a catalog](#hugging-face-datasets-as-a-catalog)
+    - [Instruction tuning, RLHF, and preference data](#instruction-tuning-rlhf-and-preference-data)
   - [When to use a hosted API versus a local model](#when-to-use-a-hosted-api-versus-a-local-model)
     - [Cost, privacy, latency, and lock-in tradeoffs](#cost-privacy-latency-and-lock-in-tradeoffs)
     - [OpenAI, Anthropic, Google Gemini, Mistral, DeepSeek, and open-weight options](#openai-anthropic-google-gemini-mistral-deepseek-and-open-weight-options)
@@ -224,7 +229,7 @@ TOC labels stay plain. In README chapters, first and later substantive mentions 
 - DeepSeek (OpenAI-compatible API): [deepseek-ai/DeepSeek-V3](https://github.com/deepseek-ai/DeepSeek-V3)
 - [BerriAI/litellm](https://github.com/BerriAI/litellm)
 - [vercel/ai](https://github.com/vercel/ai)
-- Hugging Face Hub: [huggingface/huggingface_hub](https://github.com/huggingface/huggingface_hub), [huggingface/transformers](https://github.com/huggingface/transformers)
+- Hugging Face Hub: [huggingface/huggingface_hub](https://github.com/huggingface/huggingface_hub), [huggingface/transformers](https://github.com/huggingface/transformers), [huggingface/datasets](https://github.com/huggingface/datasets)
 
 ### Local runtimes and serving
 - [ollama/ollama](https://github.com/ollama/ollama)
