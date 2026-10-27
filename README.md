@@ -540,3 +540,139 @@ Your loop for the rest of today: finish this chapter, then in Hosted Models, API
 ### Summary: Introduction to Generative AI (GenAI)
 
 Generative Artificial Intelligence (GenAI) is a model that samples new text, images, or audio from learned weights. You work in **tokens** and **context windows**, you distinguish **models, products, and open-weight checkpoints**, and you treat training as pretraining plus instruction and preference data, not as something you redo for every feature. [Hugging Face Datasets](https://huggingface.co/docs/datasets) is the catalog you open when data actually matters. Hosted APIs from [OpenAI](https://openai.com/), [Anthropic](https://www.anthropic.com/), [Google Gemini](https://ai.google.dev/gemini-api/docs), [Mistral](https://mistral.ai/), and [DeepSeek](https://www.deepseek.com/) are the default first path; local stacks such as [Ollama](https://ollama.com/) exist for privacy, cost, and lock-in. This book is a sequence of working loops. Next is **Hosted Models, APIs, and Your First Working Loop**, where you create accounts, set spend caps, and call a model from Python and from JavaScript.
+
+## Hosted Models, APIs, and Your First Working Loop
+
+This chapter is the first loop you actually run. You create one or two provider accounts, set a spend cap before the first request, call a model from Python and from JavaScript, and keep the key out of chat logs. We treat the chat apps from the last chapter as products. Here you use the same vendors as APIs: a URL, a key, a model id, and a bill you can read.
+
+Do not collect every console today. Pick a default ([OpenAI Platform](https://platform.openai.com/) is still the path most examples assume), add a second provider only when you have a reason (speed, price, or a model the first host does not offer), and stop when one smoke test passes. Local models wait until Local Models You Can Run Today.
+
+### Create accounts and spend caps before you write prompts
+
+A hosted API will charge you. The failure mode is not a bad first prompt. It is an unbounded key in a script that retries, or a key that leaked into a gist. Create the account, confirm billing, **set a hard cap or alert**, then write the prompt. If the vendor has no monthly cap, set a calendar reminder and a log you look at after the first ten calls.
+
+You need three things written down for each host, not in a screenshot of the dashboard:
+
+- **Where the key lives.** Environment variable name, never a chat, never a committed `.env` in git.
+- **The model id you will actually call.** Product names on the marketing site are not ids. Copy the id from the API docs.
+- **The spend control.** A usage limit, a prepaid credit, or an explicit "we will check the invoice at $N."
+
+Consumer chat ([ChatGPT](https://chatgpt.com/), [Claude](https://claude.ai/), [Gemini](https://gemini.google.com/)) is a different contract from the API. Do not assume the Plus plan covers [OpenAI Platform](https://platform.openai.com/) usage, or that a Claude.ai transcript will match the [Claude API](https://docs.anthropic.com/).
+
+#### [OpenAI Platform](https://platform.openai.com/), [Anthropic Console](https://console.anthropic.com/), [Google AI Studio](https://aistudio.google.com/), [Groq](https://groq.com/), [Mistral](https://console.mistral.ai/), and [DeepSeek](https://platform.deepseek.com/)
+
+Open these consoles as APIs, not as chat UIs. Create an organization or workspace you would not mind attaching a card to.
+
+- **[OpenAI Platform](https://platform.openai.com/).** Start at the [quickstart](https://platform.openai.com/docs/quickstart). Create a project key, then set billing and usage limits in the platform settings before you install a SDK. This is still the default many snippets assume. You pay for that convenience and you accept model-id churn.
+- **[Anthropic Console](https://console.anthropic.com/).** Create a workspace, generate an API key, read [getting started](https://docs.anthropic.com/en/api/getting-started). Prefer this path when the first job is careful instruction-following or a long document, not when you only wanted a ChatGPT clone.
+- **[Google AI Studio](https://aistudio.google.com/).** This is how you mint a [Gemini API](https://ai.google.dev/gemini-api/docs) key quickly. Confirm whether you are on AI Studio, [Vertex AI](https://cloud.google.com/vertex-ai), or the consumer [Gemini](https://gemini.google.com/) app. Those are different terms, quotas, and data-use rules. Read the [Gemini API terms](https://ai.google.dev/gemini-api/terms).
+- **[Groq](https://groq.com/).** Open the [Groq console](https://console.groq.com/) for a fast, often cheap hosted path. Many Groq models speak an OpenAI-compatible API, which matters when you later put [LiteLLM](https://github.com/BerriAI/litellm) in front. Speed is the reason to add Groq as a second key, not as your only identity provider.
+- **[Mistral](https://mistral.ai/).** Use [Mistral's platform](https://console.mistral.ai/) for hosted calls and the [Mistral docs](https://docs.mistral.ai/) for model ids. The same family also ships open-weight checkpoints on the [Hugging Face Hub](https://huggingface.co/mistralai). You do not need the weights today.
+- **[DeepSeek](https://www.deepseek.com/).** Create a key on the [DeepSeek platform](https://platform.deepseek.com/) and read the [DeepSeek API](https://api-docs.deepseek.com/). It is OpenAI-compatible, so your first client can be [openai-python](https://github.com/openai/openai-python) with a different base URL. Read the data policy the same way you would for any other host.
+
+One card, one cap, one key is enough for this chapter. A second key is justified when the first host is down, too slow, or too expensive for the smoke test. Five keys on day one is how keys end up in screenshots.
+
+#### [Hugging Face Hub](https://huggingface.co/) tokens and model cards
+
+You will open the [Hugging Face Hub](https://huggingface.co/) even if you never fine-tune. Model ids, licenses, and later local checkpoints live there. Create an account, then a token from the Hub [token docs](https://huggingface.co/docs/hub/en/security-tokens) (`HF_TOKEN` or `HUGGING_FACE_HUB_TOKEN`, not a token pasted into a notebook you will publish). Fine-grained tokens beat classic write tokens for a laptop.
+
+A **[model card](https://huggingface.co/docs/hub/en/model-cards)** is the page you read before you download or cite a checkpoint. It is also how you tell a hosted model id from a Hub repo id. Use the Hub today for three jobs:
+
+- **Find the card for any open-weight name you hear.** "Llama" is not a card. A Hub revision with a license is.
+- **Read license and intended use** before you promise a customer you can run it. The [huggingface_hub](https://github.com/huggingface/huggingface_hub) library is how scripts authenticate; you do not need [Transformers](https://github.com/huggingface/transformers) until Local Models You Can Run Today.
+- **Keep the token out of git.** Same rule as provider keys. `.gitignore` the env file. Rotate if it ever hits a chat log.
+
+You do not need a Hub token to call [OpenAI](https://platform.openai.com/) or [Anthropic](https://console.anthropic.com/). You need one the moment you pull a gated model, use Hub Inference, or load a dataset in a later chapter.
+
+### Call a model from Python and from JavaScript
+
+The working loop is the same in both languages: load the key from the environment, send a **fixed prompt** to a **recorded model id**, print the **raw** response (not only the assistant string), and record latency plus token usage. Official SDKs exist so you do not hand-roll auth and retries on day one. Install from the vendor's GitHub repository and follow their quickstart. We will not paste a novel of sample code here; the SDK README is the runnable source of truth.
+
+Pick **one** provider and one language for the first green call. Then repeat the same prompt from the other language so you know the model id and the key work outside your favorite runtime. Streaming can wait until the non-streaming call is boring.
+
+#### [openai-python](https://github.com/openai/openai-python) and the [OpenAI Node SDK](https://github.com/openai/openai-node)
+
+**[openai-python](https://github.com/openai/openai-python)** is `pip install openai` and a client that reads `OPENAI_API_KEY`. **[OpenAI Node SDK](https://github.com/openai/openai-node)** is the same API from JavaScript and TypeScript (`OPENAI_API_KEY` again). Follow the [OpenAI quickstart](https://platform.openai.com/docs/quickstart). Chat completions (or the current [Responses API](https://platform.openai.com/docs/api-reference/responses) in the docs) with a short system plus user message is enough.
+
+- Pin a **model id** from the docs, not "the latest GPT." Log that id next to the output.
+- Print `usage` (prompt vs completion tokens) on every smoke test. That is how you notice an accidental 8k-token prompt.
+- The same client can point at an OpenAI-compatible server later ([Groq](https://console.groq.com/), [DeepSeek](https://api-docs.deepseek.com/), [Ollama](https://ollama.com/), [vLLM](https://github.com/vllm-project/vllm)) by changing `base_url`. Do not do that until the OpenAI endpoint itself works.
+
+If the call fails, read the HTTP status and the body. A 401 is the key. A 429 is rate limit or a spent cap. A 400 is usually the model id or a malformed message list.
+
+#### [anthropic](https://github.com/anthropics/anthropic-sdk-python) Python and [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript) SDKs
+
+**[anthropic](https://github.com/anthropics/anthropic-sdk-python)** (Python) and the [TypeScript SDK](https://github.com/anthropics/anthropic-sdk-typescript) talk to the [Claude API](https://docs.anthropic.com/). The env var is `ANTHROPIC_API_KEY`. Message shape is similar to OpenAI but not identical: system is often a top-level field, not a `"system"` role in the list. Copy that from [getting started](https://docs.anthropic.com/en/api/getting-started), do not guess from an OpenAI snippet.
+
+Use this SDK when Claude is the model you actually want, not as a second way to call GPT. Token counting and long context are documented in the same API docs. Log `usage` the same way you did for OpenAI so the two bills are comparable.
+
+#### [google-genai](https://github.com/googleapis/python-genai) and the [Gemini API](https://ai.google.dev/gemini-api/docs)
+
+**[google-genai](https://github.com/googleapis/python-genai)** is the current Python client for the [Gemini API](https://ai.google.dev/gemini-api/docs). JavaScript lives in [googleapis/js-genai](https://github.com/googleapis/js-genai). Keys from [Google AI Studio](https://aistudio.google.com/) typically go in `GEMINI_API_KEY` or `GOOGLE_API_KEY`; confirm the name in the SDK README, not in a random blog post.
+
+Gemini is worth a first call when you already have a Google account, want a large context window, or need an image in the same request. Confirm the **API** (AI Studio vs [Vertex AI](https://cloud.google.com/vertex-ai)) matches the key you minted. Mixing them produces errors that look like "the model does not exist."
+
+#### [mistralai](https://github.com/mistralai/client-python) Python and [TypeScript](https://github.com/mistralai/client-ts) SDKs
+
+**[mistralai](https://github.com/mistralai/client-python)** and **[mistralai/client-ts](https://github.com/mistralai/client-ts)** wrap the hosted [Mistral](https://docs.mistral.ai/) API. Create the key on [Mistral's platform](https://console.mistral.ai/). This is the SDK pair to use when you picked Mistral as a host, including when you want the same vendor you might later self-host from the [mistralai](https://huggingface.co/mistralai) Hub org.
+
+Do not install this SDK "just in case." Install it when the smoke test's model id is a Mistral id. One successful `chat.complete` (or the current method name in their README) with usage logged is the bar.
+
+#### [DeepSeek API](https://api-docs.deepseek.com/) and OpenAI-compatible clients
+
+The [DeepSeek API](https://api-docs.deepseek.com/) is OpenAI-compatible. Your first DeepSeek call can be [openai-python](https://github.com/openai/openai-python) or the [OpenAI Node SDK](https://github.com/openai/openai-node) with `base_url` set to DeepSeek's endpoint and `DEEPSEEK_API_KEY` (or whatever their docs name). You do not need a DeepSeek-branded SDK to get a green smoke test.
+
+That compatibility is the point of this subsection: **learn one client shape, then retarget the base URL.** [Groq](https://console.groq.com/) works the same way. So will [Ollama](https://ollama.com/) and [vLLM](https://github.com/vllm-project/vllm) in the next chapter. The trap is assuming every field (tool calls, structured output, reasoning tokens) is implemented identically. When something is missing, read DeepSeek's API docs, not OpenAI's, for that host.
+
+### One interface over many providers
+
+The third SDK is when the project starts to rot. Native clients are the right first call. Once you have two hosts, or you know you will swap models in a config file, put a thin adapter in front instead of `if provider ==`. Three tools cover most teams; you pick one, not all three.
+
+#### [LiteLLM](https://github.com/BerriAI/litellm) as a unified API
+
+**[LiteLLM](https://github.com/BerriAI/litellm)** gives you an OpenAI-shaped `completion` call and a model string that names the vendor (`openai/…`, `anthropic/…`, `gemini/…`, `mistral/…`, `deepseek/…`, `groq/…`). Follow [LiteLLM's docs](https://docs.litellm.ai/docs/). Keep using environment variables per provider; LiteLLM reads the usual names.
+
+Use it from Python when the backend is Python and you want one call site. The **proxy** (a local OpenAI-compatible server) is a later Shipping, Cost, and Operations move. Today, the library is enough: same smoke-test prompt, two model strings, compare tokens and latency. If LiteLLM cannot see a key, that is still your env problem, not a reason to hardcode it.
+
+#### [Vercel AI SDK](https://github.com/vercel/ai) for app UIs
+
+**[Vercel AI SDK](https://github.com/vercel/ai)** ([docs](https://ai-sdk.dev/)) is how you stream tokens into a web app without inventing EventSource plumbing. It is for **product UI**, not for a CLI smoke test. Providers plug in as packages; you still hold the vendor keys on the server, never in the browser.
+
+If you are not building a [Next.js](https://nextjs.org/) (or similar) chat surface this week, skip it. If you are, the smoke test is: one route, one model, streamed tokens, key only on the server. Do not start here if you have not yet made a non-streaming call with a native SDK. You will not be able to tell UI bugs from API bugs.
+
+#### [OpenRouter](https://openrouter.ai/) as a model router
+
+**[OpenRouter](https://openrouter.ai/)** is one API key and a catalog of someone else's models. Docs start at [openrouter.ai/docs](https://openrouter.ai/docs). The client can be OpenAI-compatible: change `base_url`, set `OPENROUTER_API_KEY`, pick a model id like `openai/gpt-4o` or `anthropic/claude-…` as OpenRouter lists them.
+
+Use OpenRouter when you want to **try models without creating five vendor accounts**, or when the product should swap vendors behind one bill. You still set a spend cap on OpenRouter itself. You still log the **router** model id, because it is not always the same string the origin vendor uses. Privacy and data-use are OpenRouter's plus the origin's; read both. OpenRouter is not a substitute for learning one native SDK. It is a router you add when the native loop already works.
+
+### Secrets, logging, and a daily working loop
+
+The rest of this book assumes you can rerun one request without drama. That means the key is in the environment, the request is logged in a form you can diff, and a tiny test fails when the model id or the schema breaks.
+
+#### Environment variables, never paste keys into chats
+
+Provider keys are secrets. Treat them like a database password.
+
+- Put them in a local env file that is **gitignored**, or in your shell profile for a personal laptop. `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY` / `GOOGLE_API_KEY`, `GROQ_API_KEY`, Mistral's documented name, `DEEPSEEK_API_KEY`, `HF_TOKEN` / `HUGGING_FACE_HUB_TOKEN`, `OPENROUTER_API_KEY` as needed.
+- Load them in process (`os.environ`, `process.env`). SDKs that "also accept `api_key=` in the constructor" still should receive that value from the environment, not from a string literal.
+- **Never** paste a live key into [ChatGPT](https://chatgpt.com/), [Claude](https://claude.ai/), [Gemini](https://gemini.google.com/), a GitHub issue, a screenshot of [Cursor](https://cursor.com/), or a prompt file you will commit. If you already did, rotate the key in the console and delete the message.
+- CI and teammates get keys from a secret store, not from Slack. Shipping, Cost, and Operations goes deeper on gateways; the rule does not change.
+
+If a tutorial says to drop the key in the notebook: close the tutorial. The Hub [token docs](https://huggingface.co/docs/hub/en/security-tokens) and every serious SDK README assume an environment variable.
+
+#### A repeatable smoke test you run after every model change
+
+A **smoke test** is a script you run on purpose, not a vibe check in a chat window. Check it into git. It should take under a minute and fail loudly.
+
+1. **Call** one recorded model id with a prompt stored in the repo (a single sentence is enough: "Reply with the word pong and nothing else.").
+2. **Inspect** the raw payload: text, finish reason, usage, request id if the host sends one.
+3. **Check** one assertion: the text is non-empty, or it equals `pong`, or it is valid JSON if you asked for JSON. Do not assert poetry quality here.
+4. **Log** latency, prompt tokens, completion tokens, model id, and provider. A one-line CSV or JSONL in a gitignored `logs/` directory is enough.
+5. **Change one thing** (model id, temperature, host, or the prompt file) and rerun. If you changed the host, you should only have changed config, not the assertion.
+
+Run this after you bump a SDK, after you rotate a key, and after someone "just switches to the new model" in a dashboard. When the smoke test is green, you have a working loop. Prompting, Context, and System Instructions is where that prompt gets serious. Next in this book is **Local Models You Can Run Today**, where the same OpenAI-shaped client can point at a process on your machine.
+
+### Summary: Hosted Models, APIs, and Your First Working Loop
+
+Hosted GenAI starts with an account, a **spend cap**, and a key in an environment variable, not with a clever prompt in a consumer chat. Open [OpenAI Platform](https://platform.openai.com/), [Anthropic Console](https://console.anthropic.com/), [Google AI Studio](https://aistudio.google.com/), [Groq](https://console.groq.com/), [Mistral](https://console.mistral.ai/), or [DeepSeek](https://platform.deepseek.com/) as APIs; keep a [Hugging Face Hub](https://huggingface.co/) token for cards and later downloads. Call once with [openai-python](https://github.com/openai/openai-python) or the [OpenAI Node SDK](https://github.com/openai/openai-node), and again with [anthropic](https://github.com/anthropics/anthropic-sdk-python), [google-genai](https://github.com/googleapis/python-genai), [mistralai](https://github.com/mistralai/client-python), or an OpenAI-compatible [DeepSeek API](https://api-docs.deepseek.com/) client when that is the host you picked. When the third SDK appears, use [LiteLLM](https://github.com/BerriAI/litellm) in the backend, the [Vercel AI SDK](https://github.com/vercel/ai) for a UI, or [OpenRouter](https://openrouter.ai/) as a router — not all three on day one. Log usage, never paste keys into chats, and keep a smoke test you rerun after every model change. Next is **Local Models You Can Run Today**, where you install a runner and keep the same working loop.

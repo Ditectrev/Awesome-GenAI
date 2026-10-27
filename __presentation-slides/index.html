@@ -238,6 +238,174 @@
 * Hosted first: [OpenAI](https://openai.com/), [Anthropic](https://www.anthropic.com/), [Google Gemini](https://ai.google.dev/gemini-api/docs), [Mistral](https://mistral.ai/), [DeepSeek](https://www.deepseek.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Local: [Ollama](https://ollama.com/) for privacy, cost, and lock-in <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Next loop: Hosted Models, APIs, and Your First Working Loop <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Hosted Models, APIs, and Your First Working Loop <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Create accounts and spend caps before you write prompts <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Set a hard cap or alert before the first request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Write down key location, model id, and spend control <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Consumer chat is not the API contract <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### OpenAI Platform, Anthropic Console, Google AI Studio, Groq, Mistral, and DeepSeek <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [OpenAI Platform](https://platform.openai.com/) and the [quickstart](https://platform.openai.com/docs/quickstart) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Anthropic Console](https://console.anthropic.com/) and [getting started](https://docs.anthropic.com/en/api/getting-started) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Google AI Studio](https://aistudio.google.com/) vs Vertex vs consumer [Gemini](https://gemini.google.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### OpenAI Platform, Anthropic Console, Google AI Studio, Groq, Mistral, and DeepSeek <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Groq console](https://console.groq.com/) for a fast hosted path <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Mistral's platform](https://console.mistral.ai/) plus [Mistral docs](https://docs.mistral.ai/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [DeepSeek platform](https://platform.deepseek.com/) and [DeepSeek API](https://api-docs.deepseek.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One card, one cap, one key is enough for this chapter <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Hugging Face Hub tokens and model cards <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Hugging Face Hub](https://huggingface.co/) for ids, licenses, and later checkpoints <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Tokens from the Hub [token docs](https://huggingface.co/docs/hub/en/security-tokens) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Read the [model card](https://huggingface.co/docs/hub/en/model-cards) before you download <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [huggingface_hub](https://github.com/huggingface/huggingface_hub) authenticates scripts <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Not required to call [OpenAI](https://platform.openai.com/) or [Anthropic](https://console.anthropic.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Call a model from Python and from JavaScript <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Load the key from the environment <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Fixed prompt, recorded model id, raw response <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One provider and one language first <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### openai-python and the OpenAI Node SDK <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [openai-python](https://github.com/openai/openai-python) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [OpenAI Node SDK](https://github.com/openai/openai-node) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [OpenAI quickstart](https://platform.openai.com/docs/quickstart) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Pin a model id; log prompt vs completion tokens <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Same client can later change `base_url` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### anthropic Python and TypeScript SDKs <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [anthropic](https://github.com/anthropics/anthropic-sdk-python) Python SDK <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [TypeScript SDK](https://github.com/anthropics/anthropic-sdk-typescript) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Claude API getting started](https://docs.anthropic.com/en/api/getting-started) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* System prompt shape is not a copied OpenAI snippet <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `ANTHROPIC_API_KEY` from the environment <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### google-genai and the Gemini API <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [google-genai](https://github.com/googleapis/python-genai) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [googleapis/js-genai](https://github.com/googleapis/js-genai) for JavaScript <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Gemini API](https://ai.google.dev/gemini-api/docs) and [Google AI Studio](https://aistudio.google.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* AI Studio vs Vertex is a different key and contract <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### mistralai Python and TypeScript SDKs <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [mistralai](https://github.com/mistralai/client-python) Python client <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [mistralai/client-ts](https://github.com/mistralai/client-ts) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Key from [Mistral's platform](https://console.mistral.ai/); ids from [Mistral docs](https://docs.mistral.ai/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Install this SDK when the smoke-test id is a Mistral id <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### DeepSeek API and OpenAI-compatible clients <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [DeepSeek API](https://api-docs.deepseek.com/) is OpenAI-compatible <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Reuse [openai-python](https://github.com/openai/openai-python) or the [OpenAI Node SDK](https://github.com/openai/openai-node) with a new `base_url` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Groq](https://console.groq.com/) uses the same trick <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Missing fields: read DeepSeek's docs, not OpenAI's <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### One interface over many providers <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Native SDKs for the first call <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The third SDK is when the project starts to rot <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Pick one adapter, not all three <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### LiteLLM as a unified API <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [LiteLLM](https://github.com/BerriAI/litellm) and [LiteLLM docs](https://docs.litellm.ai/docs/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* OpenAI-shaped call; model string names the vendor <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Same smoke-test prompt, two model strings <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Proxy belongs in Shipping; the library is enough today <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Vercel AI SDK for app UIs <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Vercel AI SDK](https://github.com/vercel/ai) and [ai-sdk.dev](https://ai-sdk.dev/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Stream tokens into a web app <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Keys stay on the server, never in the browser <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Skip it until a native non-streaming call already works <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### OpenRouter as a model router <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [OpenRouter](https://openrouter.ai/) and [OpenRouter docs](https://openrouter.ai/docs) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One key, many origin models, OpenAI-compatible client <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Cap spend on OpenRouter itself <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Not a substitute for learning one native SDK <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Secrets, logging, and a daily working loop <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Key in the environment <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Request logged in a form you can diff <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A tiny test fails when the model id breaks <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Environment variables, never paste keys into chats <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Gitignore the local env file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* SDKs read `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, and friends <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Never paste a live key into [ChatGPT](https://chatgpt.com/), [Claude](https://claude.ai/), or a committed prompt file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Rotate if it already hit a chat log <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### A repeatable smoke test you run after every model change <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Call a recorded model id with a prompt in the repo <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Inspect the raw payload, not only the pretty text <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Check one assertion <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Log latency, tokens, model id, and provider <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Change one thing and rerun <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next: Local Models You Can Run Today <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Hosted Models, APIs, and Your First Working Loop <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Account, spend cap, key in the environment <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Native SDKs first: [openai-python](https://github.com/openai/openai-python), [anthropic](https://github.com/anthropics/anthropic-sdk-python), [google-genai](https://github.com/googleapis/python-genai), [mistralai](https://github.com/mistralai/client-python) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [DeepSeek API](https://api-docs.deepseek.com/) via an OpenAI-compatible client <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Then one of [LiteLLM](https://github.com/BerriAI/litellm), [Vercel AI SDK](https://github.com/vercel/ai), or [OpenRouter](https://openrouter.ai/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Smoke test after every model change <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next loop: Local Models You Can Run Today <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 					</textarea>
 				</section>
 			</div>
