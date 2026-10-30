@@ -944,3 +944,178 @@ Skip DSPy while the contract is still "return three lines" and you have no score
 ### Summary: Prompting, Context, and System Instructions
 
 A prompt is durable rules, a task, evidence, and an output contract, loaded from a file and checked by the smoke test. Put the rules in the **system** slot ([Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts), [Gemini](https://ai.google.dev/gemini-api/docs/text-generation) system instructions) or the **developer** slot on current [OpenAI](https://developers.openai.com/api/reference/resources/chat) models, and put user text behind a delimiter. A few examples teach a format. A **JSON prompt** names the fields you would otherwise bury in prose, and it is enough until a program must trust the types. Spend the context window on this call's rules and this call's document. Summarize or retrieve the rest, and date every memory note so it can go stale on purpose. When hand edits stall and you have a metric, compile with [DSPy](https://github.com/stanfordnlp/dspy). Next is **Coding Agents and Skills**, where those prompt files meet a repo, an agent, and a `SKILL.md` you can install.
+
+## Coding Agents and Skills
+
+A coding agent is a model in a loop with your repo: it can read files, edit them, and run commands. The prompt file from the last chapter still matters. What changes is the default behavior around that prompt: which agent you trust for a week, which `SKILL.md` it loads, and which hook runs even when the model skips a step.
+
+Pick one agent. Point it at a repo you can reset. Give it one task whose definition of done is a test, a small diff, or a page you can open. Install one skill and edit it. Add a hook only when a written instruction failed to make the action happen.
+
+### Pick a coding agent and stay with it for a week
+
+Switching tools every afternoon teaches you the install screens. Staying with one agent for a week teaches you how it fails in your repo. Write down the agent, the model id, and the task. At the end of the week you should be able to say what it edits well, what it refuses to check, and which file you had to add so the next session starts warmer.
+
+#### [Cursor](https://cursor.com/), [Claude Code](https://github.com/anthropics/claude-code), [Codex](https://github.com/openai/codex), and [GitHub Copilot](https://github.com/features/copilot)
+
+These four are enough to choose from. Use the one your team already pays for, then learn its rules file and its skill directory. Do not collect all four on day one.
+
+- **[Cursor](https://cursor.com/).** The editor this book is written beside. Agent chat, project rules, [skills](https://cursor.com/docs/skills), and [hooks](https://cursor.com/docs/hooks) live in the repo. Stay here for a week if your work is the editor: diffs, tests, and a browser on the app you are changing.
+- **[Claude Code](https://github.com/anthropics/claude-code).** Anthropic's terminal agent. It reads `CLAUDE.md`, loads skills and plugins, and runs [hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) from `.claude/settings.json`. Stay here for a week if you want a long repo task from the shell, with a transcript you can scroll.
+- **[Codex](https://github.com/openai/codex).** OpenAI's coding agent, CLI and IDE. It reads `AGENTS.md` and can install skills as plugins. Stay here for a week if your hosted default is already OpenAI and you want the agent on that same account.
+- **[GitHub Copilot](https://github.com/features/copilot).** Inline suggestions plus an agent in the editor and a CLI. Custom instructions and hooks live under `.github/`. Stay here for a week if the repo is already on GitHub and the team will not approve a second vendor.
+
+The week-long loop is the same on each: one task, one rules file, one test command, one review of the diff. If the agent cannot run the tests, fix that before you blame the model.
+
+#### [Aider](https://github.com/Aider-AI/aider) and [OpenCode](https://github.com/sst/opencode) in the terminal
+
+**[Aider](https://aider.chat/)** ([repo](https://github.com/Aider-AI/aider)) is a terminal pair programmer that maps a repo, edits files, and commits. You bring the model: hosted or a local OpenAI-compatible server from the local-models chapter. Use it when you want the git history to be the transcript and you do not want an IDE product in the middle.
+
+**[OpenCode](https://github.com/sst/opencode)** is a terminal coding agent with its own plugin directory (`.opencode/`). Use it when you want a client you can point at more than one model provider, including a local one, and you are willing to live in the shell for the week.
+
+Both are the right week if your definition of done is a commit and a test command. They are a poor week if the task is a visual UI change and you have no way to open the page. Pair them with a browser check, or pick Cursor for that task.
+
+#### What [Continue](https://github.com/continuedev/continue) was, and why you should not start a new project on it
+
+**[Continue](https://continue.dev/)** was an open-source coding agent: a VS Code extension, a JetBrains plugin, and a CLI, model-agnostic, Apache-2.0. Cursor acquired it. The [repository](https://github.com/continuedev/continue) is read-only and no longer maintained. The project shipped a final 2.0.0 release and stopped. The code remains available to read and fork.
+
+Do not start a new project on Continue. A new repo wants an agent that still ships skills, hooks, and fixes. If you already run Continue, treat the install as frozen: pin the version you have, and plan a move to one of the agents above rather than filing issues upstream. The acquisition is the reason the docs went quiet. It is not a reason to copy Continue's config into a greenfield repo.
+
+### Agent Skills that change the default behavior
+
+A **skill** is a folder the agent can load when a task matches: instructions, and sometimes scripts or templates. It changes the default behavior without you pasting the same prompt every session. The open format is [Agent Skills](https://github.com/agentskills/agentskills). [Cursor](https://cursor.com/docs/skills) loads it. Claude Code, Codex, and the [skills.sh](https://www.skills.sh/) installer do too.
+
+The agent sees the skill's name and description first, and pulls the body when the task fits. A vague description means the skill never fires. A description that says when to use it is the whole discovery mechanism.
+
+#### `SKILL.md` as the skill file
+
+Every skill is a directory with a **`SKILL.md`** file. YAML frontmatter holds at least `name` and `description`. The markdown below is the procedure. Optional `scripts/`, `references/`, and `assets/` sit beside it. Cursor's [skill format](https://cursor.com/docs/skills) adds fields such as `paths` (only surface the skill on matching files) and `disable-model-invocation` (only run when you type `/skill-name`).
+
+Put project skills in the repo so they review like code:
+
+- `.agents/skills/<name>/SKILL.md` for the shared layout
+- `.cursor/skills/` when the skill is Cursor-specific
+- `.claude/skills/` or `.codex/skills/` when you are on those agents
+
+User-level copies (`~/.cursor/skills/`, `~/.claude/skills/`) stay on your machine. They will not be on a teammate's laptop or a cloud agent unless you commit the project copy. Commit the project copy.
+
+Write the description as the trigger: "Use when the user asks to add a feature and no failing test exists yet." Write the body as steps the agent can follow, including the command to run. A skill that says "write clean code" does not change the diff. A skill that says "add a failing test, then the change, then re-run this command" does.
+
+#### Install and adapt [Skills for Real Engineers](https://github.com/mattpocock/skills)
+
+**[Skills for Real Engineers](https://github.com/mattpocock/skills)** is the skill pack this book expects you to open. It is a set of small, editable engineering workflows (grill, spec, tickets, TDD, review, handoff), published so you can change them. The author's install note matters: a plugin updates itself; [skills.sh](https://www.skills.sh/) copies files you edit by hand. Install one path per agent. Installing both gives you every skill twice.
+
+- On Claude Code, Codex, or Copilot, the README's plugin install is the path that updates itself.
+- On Cursor, OpenCode, and other agents, `npx skills add mattpocock/skills` copies the files into the project so you can edit them. Include `setup-matt-pocock-skills` when the installer asks, and run that setup once per repo.
+
+Then change the copy. A skill that names a test command you do not have will send the agent into a failing loop. Replace the command with yours. Delete skills you will not use this week. The point of this repository, against the big process packs later in the chapter, is that you can read one file and own it.
+
+#### Grill, spec, tickets, TDD, and code review loops
+
+Use the pack as loops, not as a pile of slash commands. Each loop has a done check.
+
+- **Grill.** `grill-with-docs` and `grilling` interview the design before code. They sharpen terms and can write a glossary or an ADR. Done means you can point at a decision, not at a vibe.
+- **Spec.** `to-spec` turns the conversation you already had into a spec on the issue tracker. Done means a teammate could implement it without the chat.
+- **Tickets.** `to-tickets` splits that spec into small tickets with blocking edges. Done means each ticket is one diff, not an epic.
+- **TDD.** `tdd` writes the failing test first, then the change. Done means the new test failed once and passes after the edit.
+- **Code review.** The pack closes implementation with a review pass (`code-review` from `implement`) before the commit. Done means you read the diff, not only the agent's summary.
+
+Run one loop on a real task this week. If you run all of them on a one-line fix, you spent the context window on process. Match the loop to the risk: a glossary change can stop at grill; a behavior change needs the test.
+
+#### [Cursor](https://cursor.com/docs/skills) skills, [Claude Code](https://github.com/anthropics/claude-code) plugins, and the [skills.sh](https://www.skills.sh/) installer
+
+Three ways to get a skill onto the agent:
+
+- **Cursor skills.** Drop the folder in `.cursor/skills/` or `.agents/skills/`. Cursor also reads `.claude/skills/` and `.codex/skills/` for compatibility. Invoke with `/` in Agent chat, or let the description auto-load. Docs: [Agent Skills](https://cursor.com/docs/skills).
+- **Claude Code plugins.** A plugin can bundle skills, hooks, and commands and update from a marketplace. That is the right install when you want upstream changes. It is the wrong install when you need to edit the prompt today. Uninstall the plugin before you add a hand-edited copy of the same skills.
+- **[skills.sh](https://www.skills.sh/).** The directory and the `npx skills add <owner/repo>` installer. It copies skill folders into the agent you name (`-a cursor`, and the others listed on the site). You own the files. You update them with the installer's update command, then re-read the diff so an upstream skill does not wipe your test command.
+
+After any install, ask the agent to list the skills it can see, and invoke one by name on a tiny task. If it cannot see the skill, the directory is wrong. Fix the path before you rewrite the instructions.
+
+#### [Anthropic skills](https://github.com/anthropics/skills) and other public skill catalogs
+
+**[anthropics/skills](https://github.com/anthropics/skills)** is Anthropic's public catalog (design, documents, a skill-creator, and others). [skills.sh](https://www.skills.sh/) indexes that repo next to `mattpocock/skills` and many more. Treat a catalog like a dependency:
+
+- Read the `SKILL.md` before you install it. The description tells you when it will fire.
+- Prefer a skill that tells the agent to run your tests over a skill that only sets a tone.
+- Pin the copy in git when the skill changes how code is written. A marketplace skill that updates overnight can change your diffs without a commit you authored.
+- One catalog skill this week is enough. A dozen auto-loaded skills crowd the window and fight each other.
+
+The [Agent Skills spec](https://github.com/agentskills/agentskills) is the compatibility check. If a "skill" is a proprietary blob you cannot open, it is not this format, and you cannot review it.
+
+### Agent hooks
+
+A **hook** is a script the agent host runs at a named point in the loop: before a tool, after a tool, at session start, at stop. The model does not choose to follow it. The process runs. [Cursor hooks](https://cursor.com/docs/hooks) live in `.cursor/hooks.json` (project) or `~/.cursor/hooks.json` (you). [Claude Code hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) live in `.claude/settings.json`. Cursor can also load Claude's hook files when third-party imports are on; the event names map (`PreToolUse` to `preToolUse`, and the rest in [third-party hooks](https://cursor.com/docs/reference/third-party-hooks)).
+
+#### [Cursor](https://cursor.com/docs/hooks) hooks and [Claude Code](https://docs.anthropic.com/en/docs/claude-code/hooks) hooks
+
+Start with one hook that you can see fail. A `preToolUse` or `beforeShellExecution` script that rejects a destructive command, or a `postToolUse` script that appends one line to a gitignored log, is enough to prove the wiring. Commit the project hook. Leave personal experiments in the home-directory file so you do not force them on the team.
+
+Hooks speak JSON on stdin and stdout. Exit code 2 blocks on both Cursor and Claude Code, which is why one script can travel. Read the host's doc for the exact event list before you invent an event name. A hook that calls the network or edits the repo is now part of the agent's privilege. Review it like a CI script.
+
+Codex and Copilot have their own hook files (Codex in `config.toml`, Copilot under `.github/hooks/`). Learn them on the week you are on that agent. The idea is the same: a script at a lifecycle point, with allow or deny.
+
+#### When a hook beats a skill
+
+Use a **skill** when the next step is a judgment: how to grill a design, how to split tickets, how to review a diff. The model has to read the situation.
+
+Use a **hook** when the step must happen whether or not the model agrees:
+
+- Block a command you will not allow (`rm -rf`, a push to the default branch, reading a secrets file).
+- Run a formatter or a secret scanner after an edit, every time.
+- Refuse to stop the session when the test command has not been run.
+
+A skill that says "never commit secrets" is a wish. A hook that fails the tool call is a control. If you only need the wish, skip the hook. Hooks that fire on every keystroke and call a model will burn the week on latency. Keep the script local and cheap.
+
+### Process packs versus small composable skills
+
+A **process pack** installs a methodology: phases, roles, directories, and often its own hooks. A **small skill** is one `SKILL.md` you can delete. Both can be right. They fail in different ways.
+
+#### [Spec Kit](https://github.com/github/spec-kit), [BMAD](https://github.com/bmad-code-org/BMAD-METHOD), and [GSD](https://github.com/gsd-build/get-shit-done): what they own and what they hide
+
+- **[Spec Kit](https://github.com/github/spec-kit)** (the Specify CLI) is GitHub's spec-driven kit: constitution, specify, plan, tasks, implement. It owns the phase order and the template tree. It hides the work inside those templates. When a command fails, you are debugging the kit's layout as well as the feature. Use it when the team has agreed that a spec lands before code, and someone owns upgrades.
+- **[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)** is a role-based delivery framework: many skills and agent personas, a ticket tree, and handoffs between roles. It owns the cast and the documents they pass. It hides which instruction actually ran, because a session may load a long skill you did not open. Use it when several people share the same agent workflow and will keep the skills in review. Read `AGENTS.md` in that repo before you adopt it; the maintainers themselves tell you that skill text is paid on every run, so length is not free.
+- **[GSD](https://github.com/gsd-build/get-shit-done)** (Get Shit Done) is a leaner plan, execute, and verify loop, with its own hooks and session state, aimed at Claude Code and other agents. It owns the map of a chunk of work that does not fit in one session. It hides that map inside its state directory. Use it when one session keeps forgetting the plan, and a handoff file was not enough.
+
+Install a pack in a scratch branch. Run one feature through it. If you cannot find the instruction that caused a bad edit, the pack is hiding too much for this repo. Uninstall it. You can keep the idea (spec before code) as a single skill.
+
+#### When a thin skill beats a full methodology
+
+A thin skill wins when the behavior is one sentence you will enforce this month: "failing test first," "update the handoff file before you stop," "do not edit generated files." You can read it, diff it, and throw it away.
+
+A methodology wins when the team keeps skipping the same three phases and has named an owner for the templates. The cost is upgrade day: upstream changes a prompt and every agent in the company changes with it. Pin it, review the diff, and keep a way to run the repo with the pack turned off.
+
+[Skills for Real Engineers](https://github.com/mattpocock/skills) sits on the thin side on purpose. Start there. Adopt Spec Kit, BMAD, or GSD when a single skill cannot hold the plan, not because a README promised a transformation.
+
+### Make the agent succeed in YOUR repo
+
+The agent is only as good as the repo's instructions, tests, and the note you leave for the next session. A clever skill on a repo with no test command still guesses.
+
+#### [AGENTS.md](https://agents.md/), `CLAUDE.md`, and Cursor rules
+
+**[AGENTS.md](https://agents.md/)** is the cross-agent file at the repo root: how to build, how to test, which directories are off limits, and what done means. Codex, Copilot, Cursor, and others look for it. Put the shared rules here so you are not maintaining three copies.
+
+**`CLAUDE.md`** is Claude Code's file. Keep it short and point at `AGENTS.md` for anything both tools must share. Claude-only notes (a permission you always allow, a plugin you expect) can live here.
+
+**Cursor rules** live in `.cursor/rules`. Use them for editor-specific guidance and for rules that should attach to certain file globs. The long, tool-neutral version stays in `AGENTS.md`.
+
+If the three files disagree, the agent will follow whichever it loaded last. After you edit them, start a fresh session and ask the agent to repeat the test command. That is the smoke test for the rules files.
+
+#### Repo maps, tests, and browser feedback loops
+
+A **repo map** is a short section in `AGENTS.md`: where the server starts, where the tests live, which generated directories to leave alone. Let the agent search for the rest. Pasting the tree into every prompt spends the window you budgeted in the last chapter.
+
+The **test command** is the assertion. Write the exact command in `AGENTS.md`. The agent's loop for a behavior change is: run the test and see it fail, edit, run it and see it pass. If the suite takes ten minutes, document the one focused command for this area. An agent that cannot run tests will tell you it is done because the code looks plausible.
+
+A **browser loop** is the assertion for UI. Unit tests can pass on a screen that is broken. Have the agent open the page, perform the click, and stop on what it sees. The screenshot or the accessibility snapshot is the evidence, the same way the test log is the evidence for an API change. Images, Audio, and Other Modalities returns to screenshots. Here, the rule is: if a human would check the page, the agent session is not done until something opened the page.
+
+#### Handoffs so the next session does not start from zero
+
+A **handoff** is a markdown note at the end of a session: what changed, what is left, which commands failed, and which files the next agent should read first. [Skills for Real Engineers](https://github.com/mattpocock/skills) includes a `handoff` skill that writes one. A dated file in the repo, or a gitignored local note if it contains sensitive paths, works too.
+
+The next session starts by reading that note, not by replaying the chat. Chats are not in git. The handoff is. Date it, and delete it when the work lands, so a stale handoff does not outrank the code the way a stale memory note does.
+
+That is the week: one agent, one skill you edited, one hook if a rule must be mechanical, `AGENTS.md` with the test command, and a handoff the next session can open.
+
+### Summary: Coding Agents and Skills
+
+A coding agent is a model with your files and your shell. Stay on one of [Cursor](https://cursor.com/), [Claude Code](https://github.com/anthropics/claude-code), [Codex](https://github.com/openai/codex), or [GitHub Copilot](https://github.com/features/copilot) for a week, or on [Aider](https://github.com/Aider-AI/aider) or [OpenCode](https://github.com/sst/opencode) if you want the terminal. Leave [Continue](https://github.com/continuedev/continue) to existing installs: Cursor acquired it, and the repo is unmaintained. Change default behavior with a **`SKILL.md`** folder from the [Agent Skills](https://github.com/agentskills/agentskills) format. Install [Skills for Real Engineers](https://github.com/mattpocock/skills) once, edit the test command, and run one loop (grill, spec, tickets, TDD, or review). Use [skills.sh](https://www.skills.sh/) or a plugin, not both. Enforce mechanical rules with [Cursor hooks](https://cursor.com/docs/hooks) or [Claude Code hooks](https://docs.anthropic.com/en/docs/claude-code/hooks). Adopt [Spec Kit](https://github.com/github/spec-kit), [BMAD](https://github.com/bmad-code-org/BMAD-METHOD), or [GSD](https://github.com/gsd-build/get-shit-done) only when a thin skill cannot hold the plan. Put the shared rules in [AGENTS.md](https://agents.md/), keep the test command true, check the UI in a browser when a human would, and leave a handoff. Next is **Structured Outputs and Tool Calling**, where the agent's JSON and tool arguments have to parse.
