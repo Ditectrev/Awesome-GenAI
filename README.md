@@ -676,3 +676,129 @@ Run this after you bump a SDK, after you rotate a key, and after someone "just s
 ### Summary: Hosted Models, APIs, and Your First Working Loop
 
 Hosted GenAI starts with an account, a **spend cap**, and a key in an environment variable, not with a clever prompt in a consumer chat. Open [OpenAI Platform](https://platform.openai.com/), [Anthropic Console](https://console.anthropic.com/), [Google AI Studio](https://aistudio.google.com/), [Groq](https://console.groq.com/), [Mistral](https://console.mistral.ai/), or [DeepSeek](https://platform.deepseek.com/) as APIs; keep a [Hugging Face Hub](https://huggingface.co/) token for cards and later downloads. Call once with [openai-python](https://github.com/openai/openai-python) or the [OpenAI Node SDK](https://github.com/openai/openai-node), and again with [anthropic](https://github.com/anthropics/anthropic-sdk-python), [google-genai](https://github.com/googleapis/python-genai), [mistralai](https://github.com/mistralai/client-python), or an OpenAI-compatible [DeepSeek API](https://api-docs.deepseek.com/) client when that is the host you picked. When the third SDK appears, use [LiteLLM](https://github.com/BerriAI/litellm) in the backend, the [Vercel AI SDK](https://github.com/vercel/ai) for a UI, or [OpenRouter](https://openrouter.ai/) as a router — not all three on day one. Log usage, never paste keys into chats, and keep a smoke test you rerun after every model change. Next is **Local Models You Can Run Today**, where you install a runner and keep the same working loop.
+
+## Local Models You Can Run Today
+
+This chapter moves the smoke test from a hosted URL onto a process you start yourself. You install one runner, pull one small checkpoint, and call it with the same client from Hosted Models, APIs, and Your First Working Loop. The model id changes. The assertion stays the one you already trust.
+
+A **local model** is weights on your disk plus a server that turns a prompt into tokens. [Ollama](https://ollama.com/) is the runner you install first. [llama.cpp](https://github.com/ggml-org/llama.cpp) is the runner you open when you need the GGUF file and the flags. [Open WebUI](https://github.com/open-webui/open-webui) is a chat front end in front of that server. [vLLM](https://github.com/vllm-project/vllm), [SGLang](https://github.com/sgl-project/sglang), and [Text Generation Inference](https://github.com/huggingface/text-generation-inference) are for a GPU box with concurrent users. Get one laptop loop green before you read those.
+
+[Ollama](https://ollama.com/) also sells a cloud path: tags that end in `-cloud`, and `https://ollama.com/v1` with `OLLAMA_API_KEY`. That path is a hosted API. This chapter is the local server at `http://localhost:11434`.
+
+### Install a local runner in under an hour
+
+Give yourself one machine, one runner, and one small model. The hour includes the download. It does not include shopping for a GPU.
+
+Write down three facts before the pull finishes:
+
+- **Where the weights live.** [Ollama](https://ollama.com/) stores models under its own directory (typically `~/.ollama`). [Hugging Face](https://huggingface.co/) downloads land in the Hub cache (`~/.cache/huggingface`). These are gigabytes. Delete tags you are not using.
+- **The exact model id you will call.** An [Ollama library](https://ollama.com/library) tag, or a Hub repo plus a GGUF filename. "Llama" is still not an id.
+- **The base URL of the server.** Local [Ollama](https://docs.ollama.com/api/openai-compatibility) is `http://localhost:11434/v1`. [llama.cpp](https://github.com/ggml-org/llama.cpp)'s server defaults to port `8080`. Your smoke test from the last chapter should only need a new base URL and a new model id.
+
+#### [Ollama](https://ollama.com/) for everyday local chat and APIs
+
+Install [Ollama](https://ollama.com/download) from the official download page, then confirm the process is up. The [Ollama](https://github.com/ollama/ollama) repository is the source; the [API introduction](https://docs.ollama.com/api/introduction) is the contract.
+
+The first loop:
+
+1. Open the [Ollama library](https://ollama.com/library) and pick a **small instruct** tag that fits your RAM. A model in the 3B–8B class is a smoke test. A 70B-class tag is a different project.
+2. `ollama pull` that exact tag. `ollama list` should show it. `ollama run` is the terminal chat if you want to see tokens before you write code.
+3. Leave the server running. It listens on port **11434**. The native API is `http://localhost:11434/api`. The OpenAI-compatible API is `http://localhost:11434/v1`.
+4. Call it with [openai-python](https://github.com/openai/openai-python) or the [OpenAI Node SDK](https://github.com/openai/openai-node). Set `base_url` to `http://localhost:11434/v1/` and `api_key` to any non-empty string such as `ollama`. Local [Ollama](https://docs.ollama.com/api/openai-compatibility) ignores that key. The client library still requires one.
+5. Send the same fixed prompt as your hosted smoke test ("Reply with the word pong and nothing else." is still enough). The `model` field is the library tag you pulled, not a hosted id.
+
+Read the [OpenAI compatibility](https://docs.ollama.com/api/openai-compatibility) page before you assume every field exists. Chat completions, streaming, JSON mode, and tools are in the subset. `tool_choice` and logprobs are not. When a later tool-calling chapter fails on localhost, check that page before you rewrite the prompt.
+
+`ollama signin` and `OLLAMA_API_KEY` attach you to [Ollama](https://ollama.com/)'s cloud. Skip them until the local tag answers `pong`.
+
+#### [llama.cpp](https://github.com/ggml-org/llama.cpp) and GGUF when you need control
+
+**[GGUF](https://huggingface.co/docs/hub/gguf)** is the single-file checkpoint format [llama.cpp](https://github.com/ggml-org/llama.cpp) loads. Quantization is in the filename: `Q4`, `Q5`, `Q8`, and other labels. A smaller quant fits more machines and drops more quality. You record the file you ran. You do not "run Llama" and hope the quant was fine.
+
+Use [llama.cpp](https://github.com/ggml-org/llama.cpp) when [Ollama](https://ollama.com/) hides a knob you need: which GGUF file, how many GPU layers, context length, or a build for a specific CPU. Install from the repository README (a package, a release binary, or a build). The current commands are:
+
+- `llama cli -hf <repo>` runs a GGUF straight from the [Hugging Face Hub](https://huggingface.co/).
+- `llama serve -hf <repo>` starts the OpenAI-compatible HTTP server. The server README documents the routes, including chat completions, and the default port **8080**: [tools/server](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md).
+
+Point the same OpenAI client at `http://localhost:8080/v1` and set `model` to the id the server reports. Keep the smoke-test prompt. Change the base URL and the model id, then rerun.
+
+On a Mac, the Metal build is the Apple Silicon path. On NVIDIA, a CUDA build offloads layers to the GPU. On a machine with neither, you are on CPU: it will answer, and it will be slow. That is a successful smoke test if the assertion passes. It is a poor production plan. The hardware section below is where you choose on purpose.
+
+#### [Open WebUI](https://github.com/open-webui/open-webui) as a local ChatGPT-style front end
+
+**[Open WebUI](https://github.com/open-webui/open-webui)** is a browser chat in front of a runner. It does not contain a model. Follow the [quick start](https://docs.openwebui.com/getting-started/quick-start/) and the [Ollama connection guide](https://docs.openwebui.com/getting-started/quick-start/connect-a-provider/starting-with-ollama/). The usual shape is Docker, the UI on port **3000**, and the runner still on **11434**.
+
+If both run on one machine and Open WebUI is in Docker, the container reaches the host at `http://host.docker.internal:11434`, which is why the quick start adds that host mapping. From a non-Docker install, the URL is `http://localhost:11434`. Settings → Admin → Connections is where you confirm the runner and pull a tag. The [connection docs](https://docs.openwebui.com/getting-started/quick-start/connect-a-provider/) also let you attach a hosted OpenAI-compatible provider beside the local one. Selecting the local model in the chat box is what keeps the prompt on your machine.
+
+Open WebUI stores chats in its data volume. Local inference does not make that database disappear. Treat the volume like a log: it has prompts in it. Set `WEBUI_SECRET_KEY` once, as the quick start says, so a recreated container does not log everyone out.
+
+Use the UI to see the model. Keep the scripted smoke test as the thing you rerun after a pull. A pleasant chat is not the assertion.
+
+### Pull, test, and swap models without rewriting your app
+
+The app should not care whether the weights came from [Ollama](https://ollama.com/), [llama.cpp](https://github.com/ggml-org/llama.cpp), or a GPU server. It should care about a **base URL**, a **model id**, and the **same assertion**. Swapping models means changing those two config values and rerunning the smoke test. It does not mean a new HTTP stack.
+
+#### [Hugging Face Transformers](https://github.com/huggingface/transformers) and Hub as the catalog
+
+The **[Hugging Face Hub](https://huggingface.co/models)** is still the catalog. The **[Transformers](https://github.com/huggingface/transformers)** library ([docs](https://huggingface.co/docs/transformers)) is how Python loads a Hub repo as tensors: safetensors checkpoints, tokenizers, and `pipeline` or `generate` calls. You already created a Hub token in the last chapter. Use it here when a repo is gated. Read the [model card](https://huggingface.co/docs/hub/en/model-cards) for license, size, and the exact revision before you download.
+
+Three catalogs get mixed together. Keep them separate:
+
+- **[Ollama library](https://ollama.com/library) tags** (`something:7b`) for `ollama pull` and for `model` on port 11434.
+- **GGUF repos** on the Hub, for `llama serve -hf` and for any runner that expects [GGUF](https://huggingface.co/docs/hub/gguf). The quant is a file in that repo.
+- **Transformers repos** (usually safetensors) for [Transformers](https://github.com/huggingface/transformers), and later for [vLLM](https://github.com/vllm-project/vllm) or [SGLang](https://github.com/sgl-project/sglang). A GGUF repo id will not load in Transformers just because the brand name matches.
+
+Open Transformers when you need Python control, a custom generation loop, or the adapter work in Shipping, Cost, and Operations. For the daily app, stay on an OpenAI-compatible server and swap the id in config. Loading weights inside every web request with Transformers is how you run out of memory on the first concurrent user.
+
+#### OpenAI-compatible local endpoints
+
+You already learned one client shape. Local serving is that shape with a new base URL.
+
+| Runner | Base URL | What you put in `model` |
+| --- | --- | --- |
+| [Ollama](https://docs.ollama.com/api/openai-compatibility) | `http://localhost:11434/v1` | The library tag you pulled |
+| [llama.cpp](https://github.com/ggml-org/llama.cpp) `llama serve` | `http://localhost:8080/v1` | The id the server loaded |
+| [vLLM](https://docs.vllm.ai/en/stable/serving/online_serving/openai_compatible_server/) | `http://localhost:8000/v1` | The Hub repo you passed to `vllm serve` |
+
+The working loop after every swap:
+
+1. **Call** the recorded model id with the prompt file from the hosted smoke test.
+2. **Inspect** the raw payload: text, finish reason, and usage if the server sent it. Local servers sometimes omit token counts. Log the absence. Do not invent a number.
+3. **Check** the same assertion as yesterday (`pong`, non-empty, or valid JSON). A new model that fails `pong` is a model problem or a template problem. Raise the size one step, or confirm you pulled an **instruct** tag, before you edit the prompt.
+4. **Change one thing.** Another tag, another base URL, or a larger context setting. Rerun.
+
+Context length is the setting that surprises people. Hosted models often accept a long window by default. A local runner may default much shorter, and a long window costs RAM on top of the weights (the KV cache). If the server errors on context, shorten the prompt or raise the runner's context flag, then rerun the same assertion. Sampler folklore waits until Common Challenges and Debugging Tips.
+
+[LiteLLM](https://github.com/BerriAI/litellm) can name an Ollama model in its model string once this direct call works. Prove localhost with the OpenAI client first, so a router bug is not your first local failure.
+
+### When local is no longer enough
+
+A laptop runner is enough for one developer, a smoke test, and offline or sensitive drafts. It runs out of room when several people hit it at once, when the context is long and the latency budget is tight, or when the model that passes evals does not fit in the machine on your desk. That is a serving problem. The fix is an engine built for concurrent requests, on a GPU that can hold the weights.
+
+Stay on [Ollama](https://ollama.com/) or [llama.cpp](https://github.com/ggml-org/llama.cpp) while you are still the only client. Move when you can point at a queue, a GPU, and a bill for the box.
+
+#### [vLLM](https://github.com/vllm-project/vllm) for high-throughput serving
+
+**[vLLM](https://github.com/vllm-project/vllm)** serves Hub checkpoints (the Transformers-style repos, not a random GGUF tag) with continuous batching so many requests share the GPU. The [quickstart](https://docs.vllm.ai/en/stable/getting_started/quickstart/) is `vllm serve <hub-repo>`. The [OpenAI-compatible server](https://docs.vllm.ai/en/stable/serving/online_serving/openai_compatible_server/) listens on port **8000** by default. Point the same client at `http://localhost:8000/v1`. If you set `--api-key`, the client must send it. The vLLM docs also say that key covers the `/v1` routes and does not, by itself, lock every other path on the process. Put the server on a private network.
+
+vLLM is the default you reach for on an NVIDIA GPU when [Ollama](https://ollama.com/) was fine on a laptop and is now the bottleneck. Install it on that GPU machine, not on a CPU laptop "to learn the flags." Your smoke test is the same prompt, the Hub repo as the model id, and the same assertion.
+
+#### [SGLang](https://github.com/sgl-project/sglang) and [Text Generation Inference](https://github.com/huggingface/text-generation-inference)
+
+**[SGLang](https://github.com/sgl-project/sglang)** is the other high-throughput engine you should know. Its [OpenAI-compatible API](https://docs.sglang.io/docs/basic_usage/openai_api_completions) speaks chat completions and completions, and it applies the chat template from the Hub tokenizer. Reach for SGLang when you want that stack's serving speed or its structured-generation path, and you are already on a datacenter GPU. The client change is still a base URL and a model id.
+
+**[Text Generation Inference](https://github.com/huggingface/text-generation-inference)** (TGI) is [Hugging Face](https://huggingface.co/)'s serving server, with an OpenAI-compatible messages API documented in the [TGI HTTP reference](https://huggingface.co/docs/text-generation-inference/reference/api_reference). As of 11 December 2025, Hugging Face put TGI in **maintenance mode** and tells new [Inference Endpoints](https://huggingface.co/docs/inference-endpoints/engines/tgi) deployments to use vLLM or SGLang. Learn TGI so you can read a deployment you inherited. Start a new server on [vLLM](https://github.com/vllm-project/vllm) or [SGLang](https://github.com/sgl-project/sglang).
+
+#### Choosing CPU, Apple Silicon, and NVIDIA GPU paths
+
+Pick the path from the chip in front of you, then from how many people will call it.
+
+- **CPU.** [llama.cpp](https://github.com/ggml-org/llama.cpp) with a small GGUF quant is the honest path. [Ollama](https://ollama.com/) on CPU is the same idea with a library tag. Expect a slow smoke test that still proves the client. A CPU box serving a team will miss latency budgets. Quantize down until the process stays in RAM. If it swaps to disk, the model is too big for this machine.
+- **Apple Silicon.** Unified memory is the budget: weights plus KV cache have to fit in that RAM, next to the rest of macOS. [Ollama](https://ollama.com/) and [llama.cpp](https://github.com/ggml-org/llama.cpp) use Metal here, and they are the default install. **[MLX](https://github.com/ml-explore/mlx)** and **[MLX LM](https://github.com/ml-explore/mlx-lm)** are Apple's own stack: `mlx-lm` pulls MLX checkpoints, including the [mlx-community](https://huggingface.co/mlx-community) org on the Hub, and runs them on the GPU in the chip. Use MLX when you want that format. Use Ollama when you want the OpenAI-compatible server from the previous section. vLLM and TGI are datacenter-GPU engines; they are the wrong first install on a Mac.
+- **NVIDIA GPU.** This is where throughput engines pay off. One developer can stay on [Ollama](https://ollama.com/) or [llama.cpp](https://github.com/ggml-org/llama.cpp) with CUDA. A shared service should move to [vLLM](https://docs.vllm.ai/en/stable/getting_started/quickstart/) or [SGLang](https://docs.sglang.io/). The weights still have to fit in VRAM, and the KV cache grows with context length and with concurrent sequences. If the process dies on allocate, you picked too large a model, too long a context, or too many parallel requests. Lower one of those and rerun the smoke test before you change the prompt.
+
+Whatever the chip, rerun the hosted-chapter smoke test after the move. A faster server that fails `pong` is still a failed swap.
+
+### Summary: Local Models You Can Run Today
+
+Local GenAI is a checkpoint on disk and a server you can restart. Install [Ollama](https://ollama.com/), pull one small instruct tag, and call `http://localhost:11434/v1` with the OpenAI client you already trust. Drop to [llama.cpp](https://github.com/ggml-org/llama.cpp) and a named [GGUF](https://huggingface.co/docs/hub/gguf) file when you need the quant and the flags. Put [Open WebUI](https://github.com/open-webui/open-webui) in front when you want a chat box, and keep the script as the smoke test. The [Hugging Face Hub](https://huggingface.co/models) and [Transformers](https://github.com/huggingface/transformers) are the catalog and the Python loader; the app should still talk to an OpenAI-compatible base URL so a swap is a config change. When one laptop is no longer enough, serve on an NVIDIA GPU with [vLLM](https://github.com/vllm-project/vllm) or [SGLang](https://github.com/sgl-project/sglang). Treat [Text Generation Inference](https://github.com/huggingface/text-generation-inference) as a server you may inherit, since Hugging Face has it in maintenance mode. On Apple Silicon, stay with Ollama, llama.cpp, or [MLX LM](https://github.com/ml-explore/mlx-lm). Next is **Prompting, Context, and System Instructions**, where that fixed prompt becomes a system prompt, a JSON prompt, and a file you can commit.
