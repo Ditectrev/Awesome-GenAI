@@ -802,3 +802,145 @@ Whatever the chip, rerun the hosted-chapter smoke test after the move. A faster 
 ### Summary: Local Models You Can Run Today
 
 Local GenAI is a checkpoint on disk and a server you can restart. Install [Ollama](https://ollama.com/), pull one small instruct tag, and call `http://localhost:11434/v1` with the OpenAI client you already trust. Drop to [llama.cpp](https://github.com/ggml-org/llama.cpp) and a named [GGUF](https://huggingface.co/docs/hub/gguf) file when you need the quant and the flags. Put [Open WebUI](https://github.com/open-webui/open-webui) in front when you want a chat box, and keep the script as the smoke test. The [Hugging Face Hub](https://huggingface.co/models) and [Transformers](https://github.com/huggingface/transformers) are the catalog and the Python loader; the app should still talk to an OpenAI-compatible base URL so a swap is a config change. When one laptop is no longer enough, serve on an NVIDIA GPU with [vLLM](https://github.com/vllm-project/vllm) or [SGLang](https://github.com/sgl-project/sglang). Treat [Text Generation Inference](https://github.com/huggingface/text-generation-inference) as a server you may inherit, since Hugging Face has it in maintenance mode. On Apple Silicon, stay with Ollama, llama.cpp, or [MLX LM](https://github.com/ml-explore/mlx-lm). Next is **Prompting, Context, and System Instructions**, where that fixed prompt becomes a system prompt, a JSON prompt, and a file you can commit.
+
+## Prompting, Context, and System Instructions
+
+The smoke test so far is one sentence: "Reply with the word pong and nothing else." This chapter turns that sentence into instructions you can keep. You write a **system prompt**, put the task in the user turn, name the output shape, and store the prompt in Git. The context window is the budget those pieces spend. A large wiki still waits for Retrieval-Augmented Generation (RAG). A schema the parser must trust waits for Structured Outputs and Tool Calling.
+
+Run the same hosted or local client. Change the prompt file, rerun, and tighten the assertion from "non-empty" to "matches this shape."
+
+### Write instructions the model can follow
+
+A **prompt** is the whole request: durable rules, the task, the evidence, and the shape of the answer. The model does not see your intent. It sees that text, in order, inside the window. If a colleague with no extra context would hesitate, the model will too. That is the test [Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts) uses in its prompting guide, and it works for every host in this book.
+
+One change per rerun. Edit the rule, or the example, or the document you attached. A prompt that "feels better" and a new model id in the same commit is two experiments.
+
+#### System prompts
+
+A **system prompt** is the instruction that should hold on every turn: the job, the constraints, the output shape, and what to do when the input is missing. The user's question is not the system prompt. The system prompt is the part you would be angry to see a customer rewrite.
+
+Put it in the slot the API actually treats as instructions:
+
+- **[Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts).** Top-level `system` on the Messages API, not a `"system"` item you copied from an OpenAI snippet. The same guide is where Claude's prompting notes live: clear output constraints, a role in one or two sentences, and XML tags when instructions, examples, and data share one request.
+- **[Gemini](https://ai.google.dev/gemini-api/docs/text-generation).** `system_instruction` on the client. [Prompt design strategies](https://ai.google.dev/gemini-api/docs/prompting-strategies) say the role, the constraints, and the format belong there, or at the start of the user prompt.
+- **[OpenAI](https://developers.openai.com/api/reference/resources/chat).** Durable instructions are a `developer` message on current models, or the `instructions` field on the [Responses API](https://platform.openai.com/docs/api-reference/responses). Details are in the next section. A `system` role still appears in older chat examples.
+
+Write the system prompt so you can read it in one screen. A novel about persona spends the window and hides the one rule that matters. Name the missing-input behavior in a sentence: "If the ticket has no product name, return `unknown`. Do not guess." Then prove it. Send a fixture with the product name removed and assert `unknown`.
+
+#### System, developer, and user roles
+
+Roles are how the request separates **instructions you control** from **text the user controls**.
+
+- **User.** The task, the question, and the document. If a customer, a web page, or a ticket can edit this text, treat it as data. Say so in the instruction: the block is evidence, not a new rule. Prompt injection is a later chapter (Evaluation, Tracing, and Guardrails). The habit starts here.
+- **Assistant.** Earlier replies from the model. Leave them as history. Hand-written assistant turns are few-shot examples, and they belong in the prompt file on purpose.
+- **System.** The name [Anthropic](https://docs.anthropic.com/en/api/getting-started) and many local chat templates still use for durable instructions. [Gemini](https://ai.google.dev/gemini-api/docs/text-generation) calls the same idea a system instruction.
+- **Developer.** On [OpenAI](https://developers.openai.com/api/reference/resources/chat), from o1 onward, a `developer` message is the instruction channel you own. It replaces `system` for those models. Sending `system` is often accepted and treated as `developer`. Read the model page before you assume you still have two different slots. The [OpenAI Model Spec](https://model-spec.openai.com/) calls this the chain of command: developer instructions outrank user text.
+
+Local runners follow the checkpoint's chat template. [Ollama](https://docs.ollama.com/api/openai-compatibility) and [llama.cpp](https://github.com/ggml-org/llama.cpp) will pass a system or developer role through only if that template has a place for it. If a small instruct model ignores the rule and answers the user text anyway, inspect the template and the rendered prompt before you add more adjectives.
+
+Keep one instruction channel. Rules in the developer message, the same rules repeated in the user message, and a third copy in a README the model never sees will drift. The file you load into the instruction slot is the one you test.
+
+#### Splitting work, delimiters, and output contracts
+
+One request, one job. "Classify the ticket, then draft the reply, then score your draft" is three calls, or three labeled blocks with three checks. A single paragraph that asks for all three is how the smoke test becomes a vibe check.
+
+**Delimiters** mark data apart from instructions. Name the fence in the instruction and wrap the payload in it. [Anthropic's prompting guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts) uses XML tags (`<ticket>`, `<examples>`). [Gemini's prompting strategies](https://ai.google.dev/gemini-api/docs/prompting-strategies) accept XML-style tags or Markdown headings, and they want one style inside a single prompt. Pick one, use it on every fixture, and do not nest a second convention "for clarity."
+
+For a long document, put the document first and the question after it. Both the Claude long-context notes and the Gemini long-context notes ask for that order so the question is the last thing the model reads. The durable rules stay in the system or developer slot, not buried under the document.
+
+An **output contract** is the assertion in words. "Reply with the word pong and nothing else" was a contract. The next one is the same kind of sentence: "Return exactly three lines: a title, a severity of `low` or `high`, and one sentence. No preamble." Assert those three lines in the smoke test. When the contract is a schema a program must parse, you are at the door of the next chapter. Stay with a sentence contract while you are still changing the wording.
+
+#### Few-shot examples that help instead of confuse
+
+A **few-shot** prompt shows one to a handful of input/output pairs. Use them when the format is easier to show than to describe: a house style, a closed label set, a layout. [Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts) suggests a few diverse examples wrapped so they cannot be mistaken for the live task. [Gemini](https://ai.google.dev/gemini-api/docs/prompting-strategies) makes the same split: zero-shot when the instruction is enough, few-shot when you are regulating format.
+
+Make every example obey the contract. A sloppy sample teaches the sloppy shape, and your assertion will fail for a reason that looks like "the model got worse." Cover an edge you actually hit (empty field, two languages), not five identical happy paths. When the model keeps making one specific mistake, add one counterexample that shows the correction.
+
+Stop adding examples when the prompt is mostly demonstrations. A pile of pairs belongs in an eval set, which Evaluation, Tracing, and Guardrails will score, or in [DSPy](https://github.com/stanfordnlp/dspy) later in this chapter. Forty examples on every call spend the window and the bill. Three examples in the prompt file are a format. A hundred rows on disk are a dataset.
+
+### JSON prompts
+
+A JSON prompt is the instruction written as an object: task, rules, output shape, and input. The model then follows named fields. "Reply in JSON" is a separate decision about the answer. You can do either, or both.
+
+#### Write the prompt as JSON, not only the answer
+
+Prose hides the rule in a paragraph. A JSON prompt puts each rule in a field you can diff:
+
+```json
+{
+  "task": "classify",
+  "labels": ["billing", "access", "other"],
+  "rules": ["choose one label", "no preamble"],
+  "input": "I was charged twice for the same seat."
+}
+```
+
+Load that object in the smoke test. Fill `input` from a fixture. Keep `task`, `labels`, and `rules` stable across runs so a failure points at the input or the model, not at a sentence you reworded in the same commit.
+
+The file you commit uses fake `input`. A customer ticket, a secret, or a production log stays out of Git, same as an API key. The hosted-chapter rule still applies: the prompt file is not a place to paste a live credential "so the model can see the header."
+
+JSON as the answer is the contract on the way out: "Return one object with `label` and `reason`." Parse it in the smoke test with a strict parser. A trailing comma or a sentence before the brace fails the run. That failure is the signal to move to structured outputs, not to add "please really return JSON" for the fourth time.
+
+#### When JSON prompts are enough versus structured outputs
+
+A JSON prompt plus a strict parse is enough when a person could also check the object, the schema is small, and a retry is acceptable. Support macros, a classifier with three labels, and a fixture suite you run by hand all live here.
+
+Move on when a program will trust the types. A database write, a tool argument, or a form field that must be an integer is Structured Outputs and Tool Calling. That chapter covers native structured outputs on the hosted APIs, [Instructor](https://github.com/567-labs/instructor), and constrained generators. JSON mode on some APIs (valid JSON, any shape) sits between the two: it stops preamble, and it does not stop a missing field. Use it as a bridge. Do not treat it as a schema.
+
+The smoke test decides. If `json.loads` plus a check for the required keys passes all week, stay in this chapter's pattern. If the same keys come back as strings one day and numbers the next, stop editing the prompt and pick up the next chapter.
+
+### Context windows as a budget
+
+Chapter 1 defined the **context window**: every token of instructions, history, documents, tool results, and the reply still streaming. You pay for the prompt and you pay again for the completion. This section is how you spend that budget on purpose.
+
+Count with the provider's tokenizer before you celebrate a clever prompt. Log prompt tokens on the smoke test, hosted or local. A prompt that grew from a few hundred tokens to several thousand is a budget change. Review it like a dependency bump.
+
+#### What to put in the prompt versus retrieve later
+
+Keep in the prompt what the model must see on this call:
+
+- The system or developer rules.
+- The current task.
+- The one document, diff, or ticket the task is about, when it fits and the model needs all of it.
+- A few examples that define the format.
+
+Leave for retrieval anything that is large, stale-prone, or only sometimes relevant: a wiki, a pile of PDFs, a year's tickets. Retrieval-Augmented Generation (RAG) is the chapter that fetches the paragraph. Pasting the wiki "so the model has context" fills the window and buries the instruction. Coding Agents and Skills is where a repo turns into tools and a map, which is the same decision for source code.
+
+Stable rules at the front of the request are also what prompt caches reuse. [Anthropic prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching) builds the prefix from tools, then system, then messages. Shipping, Cost, and Operations is where you turn that into a bill. Here, keep the system prompt byte-stable and put the varying ticket at the end.
+
+#### Summaries, memory notes, and stale context
+
+When the window fills, replace old turns with a **summary you wrote**, or drop them. Check the request that actually left your process. A client library that silently trims the start will trim the system prompt first if you stacked history above it. Put instructions first. Trim history.
+
+A **memory note** is a short file or message: decisions, names, constraints, dates. It is not the transcript. Date it. A note that says "the API is v1" will outrank the code you shipped last week, because the model can see the note and cannot see the calendar. Rebuild the note when the source changes. A summary is a cache with an expiry.
+
+Agents and Multi-Step Workflows goes further under memory engineering: what to store, what to forget, what to retrieve. Until then, prefer the current document over a month-old paraphrase, and prefer a short note over an unbounded chat log.
+
+### Prompt files you can version in Git
+
+A prompt you only have in a chat window will be different tomorrow. The smoke test should load a file.
+
+#### Keep prompts next to code, not in a chat history
+
+Put the system prompt and the JSON prompt in the repo, next to the test that calls them: `prompts/classify.md` or `prompts/classify.json`. One task, one file. The smoke test reads the file, sends it, and checks the contract.
+
+Review the diff the way you review code. A wording change is a behavior change. Record the model id and the token count in the test log, not inside the text the model reads. A line like "You are running on gpt-…" becomes a lie the day you point the same file at [Ollama](https://ollama.com/).
+
+Fixtures sit beside the prompt, with fake input. Production text stays in a gitignored path. The loop is the one you already have:
+
+1. **Call** the recorded model id with the prompt file and one fixture.
+2. **Inspect** the raw text and the prompt-token count.
+3. **Check** the contract: three lines, a label from the list, or a JSON object with the required keys.
+4. **Change one thing** in the file and rerun. Commit the file and the assertion together when the run is green.
+
+#### [DSPy](https://github.com/stanfordnlp/dspy) when prompts should be optimized, not hand-tuned forever
+
+**[DSPy](https://github.com/stanfordnlp/dspy)** ([docs](https://dspy.ai/)) is the point where you stop rewording by hand. You write the task as a program with a signature, you score outputs with a metric, and an optimizer proposes instructions and few-shot demos. The project's line is to program the model call, then compile the prompts.
+
+Use it when three manual edits no longer move a score you can explain, and you have examples. A handful can start `BootstrapFewShot`. Instruction search such as [MIPROv2](https://dspy.ai/current/api/optimizers/MIPROv2/) or [GEPA](https://dspy.ai/current/api/optimizers/GEPA/overview/) wants a real metric and a held-out set, because a prompt optimizer will fit a tiny train set and look brilliant on it. Save the compiled program and commit that artifact next to the hand-written prompt so the diff shows what the search changed.
+
+Skip DSPy while the contract is still "return three lines" and you have no score. A file plus a smoke test is the whole tool. Skip it when the failure is types and parsing: that is structured outputs, and it is cheaper than a search over wordings. The metric you would hand DSPy is the same assertion style as Evaluation, Tracing, and Guardrails. Build a score you believe before you let an optimizer maximize it.
+
+### Summary: Prompting, Context, and System Instructions
+
+A prompt is durable rules, a task, evidence, and an output contract, loaded from a file and checked by the smoke test. Put the rules in the **system** slot ([Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts), [Gemini](https://ai.google.dev/gemini-api/docs/text-generation) system instructions) or the **developer** slot on current [OpenAI](https://developers.openai.com/api/reference/resources/chat) models, and put user text behind a delimiter. A few examples teach a format. A **JSON prompt** names the fields you would otherwise bury in prose, and it is enough until a program must trust the types. Spend the context window on this call's rules and this call's document. Summarize or retrieve the rest, and date every memory note so it can go stale on purpose. When hand edits stall and you have a metric, compile with [DSPy](https://github.com/stanfordnlp/dspy). Next is **Coding Agents and Skills**, where those prompt files meet a repo, an agent, and a `SKILL.md` you can install.

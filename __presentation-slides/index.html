@@ -536,6 +536,145 @@
 * [Open WebUI](https://github.com/open-webui/open-webui) for the chat box; the script stays the smoke test <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * [vLLM](https://github.com/vllm-project/vllm) or [SGLang](https://github.com/sgl-project/sglang) when the laptop is no longer enough <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Next loop: Prompting, Context, and System Instructions <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Prompting, Context, and System Instructions <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* The smoke test grows from "pong" into a contract <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Rules, task, evidence, and output shape <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The prompt lives in a file, not in a chat <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Write instructions the model can follow <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* The model sees the text, in order, inside the window <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* If a colleague would hesitate, the model will too <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One change per rerun <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### System prompts <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Durable rules: job, constraints, output shape, missing input <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts): top-level `system` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Gemini](https://ai.google.dev/gemini-api/docs/text-generation): `system_instruction` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [OpenAI](https://developers.openai.com/api/reference/resources/chat): `developer` message or Responses `instructions` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Short enough to read in one screen; prove the missing-input rule with a fixture <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### System, developer, and user roles <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* User text is the task and the document; treat customer text as data <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Assistant turns are history, unless you meant a few-shot example <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [OpenAI Model Spec](https://model-spec.openai.com/): developer instructions outrank user text <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* From o1 on, `developer` replaces `system` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Local templates only honor a system slot when the checkpoint has one <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Splitting work, delimiters, and output contracts <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* One request, one job <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Name the fence and wrap the payload: XML tags or Markdown headings, one style <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Long document first, question last; rules stay in the instruction slot <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The contract is the assertion in words, then in the smoke test <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Few-shot examples that help instead of confuse <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A few input/output pairs when the format is easier to show <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Every example must obey the contract <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Cover an edge you actually hit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A pile of examples is an eval set, not a prompt <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### JSON prompts <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* The instruction itself is an object: task, rules, output, input <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* "Reply in JSON" is a separate decision about the answer <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Write the prompt as JSON, not only the answer <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Named fields diff cleanly <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Keep `task` and `rules` stable; vary `input` from a fixture <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Commit fake input; keep customer text and secrets out of Git <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Parse the answer with a strict parser <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### When JSON prompts are enough versus structured outputs <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Enough when a person could check a small object and a retry is acceptable <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Move on when a program must trust types <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* JSON mode stops preamble; it does not enforce your schema <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next chapter: Structured Outputs and Tool Calling <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Context windows as a budget <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Instructions, history, documents, tools, and the reply share one window <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Log prompt tokens on every smoke test <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### What to put in the prompt versus retrieve later <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Keep rules, this task, and the one document that must be seen whole <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A wiki, a pile of PDFs, or a repo dump waits for retrieval or tools <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Stable instructions first so a prompt cache can reuse the prefix <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Anthropic prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching): tools, then system, then messages <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Summaries, memory notes, and stale context <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Trim history on purpose; confirm the system prompt is still in the request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A memory note is decisions, names, and constraints, with a date <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A summary is a cache with an expiry <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Prefer the current document over a month-old paraphrase <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Prompt files you can version in Git <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* The smoke test loads a file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A chat transcript is not the source of the prompt <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Keep prompts next to code, not in a chat history <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* One task, one file: `prompts/classify.md` or `prompts/classify.json` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Review the wording diff like code <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Model id and token count go in the test log, not in the prompt text <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Call, inspect, check the contract, change one thing <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### DSPy when prompts should be optimized, not hand-tuned forever <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [DSPy](https://github.com/stanfordnlp/dspy) compiles prompts against a metric <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [MIPROv2](https://dspy.ai/current/api/optimizers/MIPROv2/) and [GEPA](https://dspy.ai/current/api/optimizers/GEPA/overview/) search instructions <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Hold out examples; a tiny train set will look brilliant and lie <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Stay with a prompt file while the contract is still a sentence you can read <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Prompting, Context, and System Instructions <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* System or developer rules, user text behind a delimiter, contract in the smoke test <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* JSON prompts name the fields; structured outputs wait until types must hold <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Spend the window on this call; date every summary <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Prompt files in Git; [DSPy](https://dspy.ai/) when a metric has stalled <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next loop: Coding Agents and Skills <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 					</textarea>
 				</section>
 			</div>
