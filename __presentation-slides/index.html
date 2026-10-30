@@ -406,6 +406,136 @@
 * Then one of [LiteLLM](https://github.com/BerriAI/litellm), [Vercel AI SDK](https://github.com/vercel/ai), or [OpenRouter](https://openrouter.ai/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Smoke test after every model change <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Next loop: Local Models You Can Run Today <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Local Models You Can Run Today <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Weights on disk, plus a server you start <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Same client, new base URL, same assertion <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Ollama](https://ollama.com/) first; GPU engines after the laptop loop is green <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A `-cloud` tag on [Ollama](https://ollama.com/) is a hosted API <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Install a local runner in under an hour <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* One machine, one runner, one small model <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Record where the weights live, the model id, and the base URL <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Ollama](https://docs.ollama.com/api/openai-compatibility): `http://localhost:11434/v1` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [llama.cpp](https://github.com/ggml-org/llama.cpp) server: port 8080 <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Ollama for everyday local chat and APIs <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Install from [Ollama](https://ollama.com/download) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Pull a small instruct tag from the [library](https://ollama.com/library) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `ollama list` shows it; the server stays on port 11434 <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* OpenAI client: base URL `http://localhost:11434/v1/`, any non-empty `api_key` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Local Ollama ignores that key <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Ollama for everyday local chat and APIs <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Same smoke-test prompt; `model` is the tag you pulled <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [OpenAI compatibility](https://docs.ollama.com/api/openai-compatibility): chat, JSON, tools <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `tool_choice` and logprobs are outside that subset <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `ollama signin` and `OLLAMA_API_KEY` are the cloud path <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### llama.cpp and GGUF when you need control <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [GGUF](https://huggingface.co/docs/hub/gguf): one file, quant in the name (`Q4`, `Q5`, `Q8`) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [llama.cpp](https://github.com/ggml-org/llama.cpp) when you must name the file and the flags <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `llama cli -hf` runs a Hub GGUF <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `llama serve -hf` opens the OpenAI-compatible server <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Server README](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md): port 8080 <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Open WebUI as a local ChatGPT-style front end <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Open WebUI](https://github.com/open-webui/open-webui) is a chat UI, not a model <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Quick start](https://docs.openwebui.com/getting-started/quick-start/): Docker, UI on port 3000 <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docker reaches host Ollama at `http://host.docker.internal:11434` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Chats live in the data volume; local weights do not erase that log <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Keep the scripted smoke test beside the chat box <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Pull, test, and swap models without rewriting your app <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* The app stores a base URL, a model id, and an assertion <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A swap is a config change and a rerun <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Hugging Face Transformers and Hub as the catalog <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Hugging Face Hub](https://huggingface.co/models) is the catalog <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Transformers](https://github.com/huggingface/transformers) loads safetensors repos in Python <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Ollama library](https://ollama.com/library) tags, GGUF files, and Transformers repos are different ids <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Read the [model card](https://huggingface.co/docs/hub/en/model-cards) before the download <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Daily app traffic stays on the OpenAI-compatible server <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### OpenAI-compatible local endpoints <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Ollama](https://docs.ollama.com/api/openai-compatibility): `:11434/v1` and the library tag <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [llama.cpp](https://github.com/ggml-org/llama.cpp) `llama serve`: `:8080/v1` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [vLLM](https://docs.vllm.ai/en/stable/serving/online_serving/openai_compatible_server/): `:8000/v1` and the Hub repo <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Same prompt, same assertion, one change at a time <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Local context defaults are often shorter than hosted windows <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### When local is no longer enough <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* One developer: [Ollama](https://ollama.com/) or [llama.cpp](https://github.com/ggml-org/llama.cpp) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Many concurrent users, long context, a latency budget: a GPU engine <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### vLLM for high-throughput serving <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [vLLM](https://github.com/vllm-project/vllm) on an NVIDIA GPU <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Quickstart](https://docs.vllm.ai/en/stable/getting_started/quickstart/): `vllm serve <hub-repo>` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* OpenAI-compatible server on port 8000 <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `--api-key` covers `/v1`; keep the process on a private network <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Same smoke-test prompt and assertion <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### SGLang and Text Generation Inference <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [SGLang](https://github.com/sgl-project/sglang) for high-throughput serving and structured generation <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [OpenAI-compatible API](https://docs.sglang.io/docs/basic_usage/openai_api_completions) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Text Generation Inference](https://github.com/huggingface/text-generation-inference): read it when you inherit it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* In maintenance mode since 11 December 2025; new servers use vLLM or SGLang <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Choosing CPU, Apple Silicon, and NVIDIA GPU paths <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* CPU: small GGUF on [llama.cpp](https://github.com/ggml-org/llama.cpp); slow and still a valid smoke test <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Apple Silicon: [Ollama](https://ollama.com/), [llama.cpp](https://github.com/ggml-org/llama.cpp) Metal, or [MLX LM](https://github.com/ml-explore/mlx-lm) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* NVIDIA: [vLLM](https://docs.vllm.ai/en/stable/getting_started/quickstart/) or [SGLang](https://docs.sglang.io/) when more than one person calls it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Weights plus KV cache have to fit; lower model size, context, or concurrency <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Rerun `pong` after the move <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Local Models You Can Run Today <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Ollama](https://ollama.com/) on `http://localhost:11434/v1` with a small instruct tag <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [llama.cpp](https://github.com/ggml-org/llama.cpp) and a named [GGUF](https://huggingface.co/docs/hub/gguf) when you need the file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Open WebUI](https://github.com/open-webui/open-webui) for the chat box; the script stays the smoke test <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [vLLM](https://github.com/vllm-project/vllm) or [SGLang](https://github.com/sgl-project/sglang) when the laptop is no longer enough <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next loop: Prompting, Context, and System Instructions <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 					</textarea>
 				</section>
 			</div>
