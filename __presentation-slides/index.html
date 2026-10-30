@@ -675,6 +675,193 @@
 * Spend the window on this call; date every summary <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Prompt files in Git; [DSPy](https://dspy.ai/) when a metric has stalled <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Next loop: Coding Agents and Skills <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Coding Agents and Skills <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A model in a loop with your repo: read, edit, run <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One agent for a week, one skill you edit, one done check <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A hook only when a written rule failed to run <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Pick a coding agent and stay with it for a week <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Record the agent, the model id, and the task <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Done is a test, a small diff, or a page you opened <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Cursor, Claude Code, Codex, and GitHub Copilot <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Cursor](https://cursor.com/): editor, [skills](https://cursor.com/docs/skills), [hooks](https://cursor.com/docs/hooks) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Claude Code](https://github.com/anthropics/claude-code): terminal agent, `CLAUDE.md`, plugins <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Codex](https://github.com/openai/codex): OpenAI's agent, reads `AGENTS.md` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [GitHub Copilot](https://github.com/features/copilot): stay if the team is already on GitHub <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* If it cannot run the tests, fix that before you blame the model <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Aider and OpenCode in the terminal <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Aider](https://github.com/Aider-AI/aider): repo map, edits, commits; you bring the model <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [OpenCode](https://github.com/sst/opencode): terminal agent, `.opencode/` plugins, many providers <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A commit plus a test command is the week's done check <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A visual UI task still needs a browser check <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### What Continue was, and why you should not start a new project on it <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Continue](https://continue.dev/) was an open-source agent; Cursor acquired it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The [repo](https://github.com/continuedev/continue) is read-only; 2.0.0 was the final release <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Existing installs can stay pinned; new projects pick a maintained agent <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Agent Skills that change the default behavior <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A folder the agent loads when the task matches <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Agent Skills](https://github.com/agentskills/agentskills): open format, name plus description first <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A vague description means the skill never fires <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### SKILL.md as the skill file <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* `SKILL.md` frontmatter: `name` and `description` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Optional `scripts/`, `references/`, and `assets/` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Commit project skills under `.agents/skills/` or the agent's directory <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Home-directory skills stay on your machine <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The body names the command to run <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Install and adapt Skills for Real Engineers <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [mattpocock/skills](https://github.com/mattpocock/skills): small workflows you can edit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A plugin updates itself; [skills.sh](https://www.skills.sh/) copies files you own <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Install one path per agent, or every skill appears twice <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Replace the test command with yours; delete skills you will not use <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Grill, spec, tickets, TDD, and code review loops <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Grill: a decision you can point at, before code <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `to-spec` and `to-tickets`: one diff per ticket <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `tdd`: the new test failed once, then passed <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Close with a review of the diff, not only the agent's summary <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One loop per task; a one-line fix does not need all five <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Cursor skills, Claude Code plugins, and the skills.sh installer <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Cursor: `.cursor/skills/` or `.agents/skills/`, invoke with `/` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Claude Code plugins update from a marketplace; uninstall before a hand-edited copy <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `npx skills add` copies folders you can diff <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* After install, ask the agent to list the skills it can see <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Anthropic skills and other public skill catalogs <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [anthropics/skills](https://github.com/anthropics/skills) and the [skills.sh](https://www.skills.sh/) index <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Read `SKILL.md` before you install <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Pin a catalog skill in git when it changes how code is written <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One new catalog skill this week <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Agent hooks <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A script at a named point in the loop; the model does not opt in <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Cursor](https://cursor.com/docs/hooks): `.cursor/hooks.json` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [Claude Code](https://docs.anthropic.com/en/docs/claude-code/hooks): `.claude/settings.json` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Cursor hooks and Claude Code hooks <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Prove the wiring with one hook you can see fail <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Commit project hooks; keep personal experiments in your home directory <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Exit code 2 blocks on both hosts <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Cursor can load Claude hook files: [third-party hooks](https://cursor.com/docs/reference/third-party-hooks) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### When a hook beats a skill <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Skill: judgment (grill, split tickets, review a diff) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Hook: the step must happen (block a command, format, require the test run) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* "Never commit secrets" in a skill is a wish; a failing tool call is a control <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Process packs versus small composable skills <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A pack installs phases, roles, and directories <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A small skill is one `SKILL.md` you can delete <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Spec Kit, BMAD, and GSD: what they own and what they hide <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Spec Kit](https://github.com/github/spec-kit): constitution, specify, plan, tasks, implement <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [BMAD](https://github.com/bmad-code-org/BMAD-METHOD): many roles; skill text is paid on every run <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [GSD](https://github.com/gsd-build/get-shit-done): plan, execute, verify across sessions <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* If you cannot find the instruction behind a bad edit, uninstall the pack <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### When a thin skill beats a full methodology <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* One sentence you will enforce this month belongs in a thin skill <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A methodology needs an owner for the templates and a pin on upgrades <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Start with [Skills for Real Engineers](https://github.com/mattpocock/skills) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Make the agent succeed in YOUR repo <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Instructions, a real test command, and a note for the next session <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### AGENTS.md, CLAUDE.md, and Cursor rules <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [AGENTS.md](https://agents.md/): build, test, off-limits paths, definition of done <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `CLAUDE.md` points at `AGENTS.md` for anything both tools share <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Cursor rules in `.cursor/rules` for editor-specific and glob-specific notes <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Fresh session: ask the agent to repeat the test command <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Repo maps, tests, and browser feedback loops <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A short map in `AGENTS.md`; let the agent search for the rest <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The test command is the assertion: fail, edit, pass <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* UI work is done when something opened the page <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Handoffs so the next session does not start from zero <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* What changed, what is left, which commands failed, which files to read <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The `handoff` skill in [mattpocock/skills](https://github.com/mattpocock/skills) writes one <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The next session reads the note; date it and delete it when the work lands <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Coding Agents and Skills <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* One maintained agent for a week; leave [Continue](https://github.com/continuedev/continue) behind for new work <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One edited `SKILL.md` from [Skills for Real Engineers](https://github.com/mattpocock/skills) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Hooks for mechanical rules; packs only when a thin skill cannot hold the plan <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* [AGENTS.md](https://agents.md/), a true test command, a browser check for UI, a handoff <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next loop: Structured Outputs and Tool Calling <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 					</textarea>
 				</section>
 			</div>
